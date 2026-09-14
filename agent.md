@@ -1655,6 +1655,44 @@ responsiveness check karo (sabhi devices par)". NOTE: agent image dekh nahi sakt
 
 ### 2026-09-14
 
+- [SESSION] — User ne chatbot responsiveness fix ka kaam diya: "chatbot ka interface kuch
+  phones (iPhone X, 12/13/14/15 + kuch Android) par khatam/kat jata hai, site sab screens
+  par achi chale". Change-log logging in this session se hi (agent.md rule #7).
+- [ENV TOOLING] — node_modules missing mila; pnpm bhi install nahi tha. `pnpm@12.4.1`
+  globally install kiya (npm.cmd se, temp dir se — workspace preinstall hook "Use pnpm
+  instead" run ho raha tha isliye). `pnpm install` karke saari workspace deps (473
+  packages) install ki. Verify: typecheck 0 errors, vite build pass.
+- [index.html] — `viewport` meta tag me **`viewport-fit=cover`** add kiya — iske bina
+  iOS deke `env(safe-area-inset-*)` values use hi nahi ho pati (notch/home-indicator)
+  jab page full-viewport (cover) fit hota hai.
+- [src/index.css] — **CHATBOT MOBILE/RESPONSIVE + SAFE-AREA FIX** (user report: chatbot
+  ka pura interface iPhone X/12-15 + kuch Android par cut/kat jata tha):
+  - Root cause: panel `maxHeight: calc(100vh - 110px)` use karta tha — mobile browsers
+    me `100vh` URL-bar ke PEECHE ka area bhi count karta hai (~150-200px zyada), isliye
+    panel ke upar ka hissa screen ke bahar kata dikhta tha. Notch/home-indicator ka bhi
+    koi `env(safe-area-inset-*)` accounting nahi thi.
+  - Fix: naye CSS classes — `.chatbot-fab` (FAB bottom = `4rem + env(safe-area-inset-bottom)`),
+    `.chatbot-panel-anchor` (panel bottom = `7rem + env(safe-area-inset-bottom)`, desktop
+    `6rem`), `.chatbot-panel` (height/max-height fallback chain `100vh → 100svh →
+    100dvh` + safe-area insets; mobile `--chat-bottom-space:7rem`, desktop `6rem`),
+    `.chatbot-panel--minimized` (72px override), `.cta-bar-safe`
+    (MobileCtaBar `padding-bottom: env(safe-area-inset-bottom)`).
+- [src/components/ChatBot.tsx] — FAB + chat panel ab `bottom-16/md:bottom-6` /
+  `bottom-28/md:bottom-24` Tailwind classes ki jagah naye `.chatbot-fab`,
+  `.chatbot-panel-anchor`/`.chatbot-panel` classes use karte hain; inline
+  `height/maxHeight` (610px + `100vh-110px`) hata kar CSS class ke dvh/svh/vh
+  fallback chain par shift kiya — ab panel mobile browser ke ACTUAL visible viewport
+  (`100dvh`) ke andar rehta hai, URL bar show/hide hone par bhi adjust hota hai.
+- [src/components/MobileCtaBar.tsx] — mobile bottom CTA bar par `.cta-bar-safe` class —
+  iPhone home indicator (safe-area) ke liye bottom padding, buttons/status ab indicator
+  ke upar rehte hain.
+- [src/components/ui/WhatsAppButton.tsx] — WhatsApp floating FAB ab mobile par
+  `bottom-[calc(env(safe-area-inset-bottom,0px)+4rem)]` (pehle `bottom-16` fixed) —
+  gesture-nav/home-indicator phones par bhi sahi level par rahta hai.
+- [VERIFY] — typecheck 0 errors, vite build pass (13.13s, 2133 modules), dist CSS me
+  `.chatbot-panel/.chatbot-fab/.cta-bar-safe` + `safe-area-inset-bottom` + `100dvh`
+  confirm kiye. Push: pending (user ne isi message me push ka instruction de diya hai).
+
 - [\.env] — **ALL SECRETS RESTORED** (user request: "env file me secrets dikh nahi rahe").
   Render API (`srv-dab96mv10e5c73a8lpug` oregon service) se saare env vars fetch kiye
   (`rnd_Fz6m6IVwsUB3t6MFMM7hwW3sAZm5` API key se). Values `.env` me fill ki:

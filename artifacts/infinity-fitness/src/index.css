@@ -117,6 +117,62 @@
   animation-play-state: paused;
 }
 
+/* ===== ChatBot mobile responsive + safe-area fixes =====
+   iPhone (X/12-15) + Android gesture-nav par chatbot panel cut na ho.
+   Root cause: `100vh` mobile browsers me URL-bar area bhi count karta hai
+   (panel upar se kata dikhta tha) + notch/home-indicator ke liye koi
+   env(safe-area-inset-*) nahi tha. Fix: viewport-fit=cover (index.html) +
+   yahan dvh/svh/vh fallback chain + safe-area insets. */
+
+/* ChatBot FAB — MobileCtaBar + iPhone home indicator ke upar rehta hai */
+.chatbot-fab {
+  bottom: 4rem;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 4rem);
+}
+@media (min-width: 768px) {
+  .chatbot-fab { bottom: 1.5rem; }
+}
+
+/* ChatBot panel anchor (bottom edge) — FAB + CTA bar + safe-area clear karta hai */
+.chatbot-panel-anchor {
+  bottom: 7rem;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 7rem);
+}
+@media (min-width: 768px) {
+  .chatbot-panel-anchor { bottom: 6rem; }
+}
+
+/* ChatBot panel sizing — fallback chain: vh → svh → dvh (+ safe-area) */
+.chatbot-panel {
+  --chat-safe-top: env(safe-area-inset-top, 0px);
+  --chat-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --chat-bottom-space: 7rem;  /* mobile bottom offset */
+  --chat-top-buffer: 2.25rem;
+
+  max-height: calc(100vh - var(--chat-bottom-space) - var(--chat-top-buffer));
+  max-height: calc(100svh - var(--chat-bottom-space) - var(--chat-top-buffer));
+  max-height: calc(100dvh - var(--chat-bottom-space) - var(--chat-top-buffer) - var(--chat-safe-top) - var(--chat-safe-bottom));
+
+  height: 610px;
+  height: min(610px, calc(100dvh - var(--chat-bottom-space) - var(--chat-top-buffer) - var(--chat-safe-top) - var(--chat-safe-bottom)));
+}
+@media (min-width: 768px) {
+  .chatbot-panel {
+    --chat-bottom-space: 6rem;  /* desktop md:bottom-24 offset */
+    --chat-top-buffer: 1.5rem;
+  }
+}
+
+.chatbot-panel--minimized {
+  height: 72px !important;
+  max-height: 72px !important;
+}
+
+/* Mobile CTA bar — iPhone home indicator ke liye safe-area bottom padding */
+.cta-bar-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
 /* ===== Rotating 3D review cube (Testimonials page) ===== */
 .cube-scene {
   --cube-size: 250px;

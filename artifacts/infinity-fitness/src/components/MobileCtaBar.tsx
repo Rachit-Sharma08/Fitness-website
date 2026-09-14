@@ -13,7 +13,7 @@ export function MobileCtaBar() {
       {/* Spacer taaki fixed bar page content ko na dhake */}
       <div className="h-14 md:hidden" aria-hidden="true" />
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0c0c0c]/95 border-t border-white/10">
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0c0c0c]/95 border-t border-white/10 cta-bar-safe">
         <div className="grid grid-cols-3 items-stretch h-14">
           <a
             href={`tel:${GYM_PHONE_TEL}`}
