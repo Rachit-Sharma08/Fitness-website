@@ -1692,6 +1692,17 @@ responsiveness check karo (sabhi devices par)". NOTE: agent image dekh nahi sakt
 - [VERIFY] — typecheck 0 errors, vite build pass (13.13s, 2133 modules), dist CSS me
   `.chatbot-panel/.chatbot-fab/.cta-bar-safe` + `safe-area-inset-bottom` + `100dvh`
   confirm kiye. Push: pending (user ne isi message me push ka instruction de diya hai).
+- [PUSH + GIT] — Push successful: `769daee..cae7419 main -> main`. Git repo me local
+  user.name/user.email set nahi tha (commit fail ho raha tha) — isliye commit repo-author
+  identity inline `-c user.name="digitalguru99908-dev" -c user.email="digitalguru99908@gmail.com"`
+  se kiya (bina global config change kiye). Push ke dauran GCM (Git Credential Manager,
+  `credential.helper=manager`) auth prompt par hang hua — `$env:GCM_INTERACTIVE="auto"`
+  set kar ke push retry kiya → success. Verify: `Your branch is up to date with
+  'origin/main'`, working tree clean.
+- [SESSION — user instruction] — User ne confirm kiya: "jo bhi changes kare rule ka
+  according har baat aur changes agent.md me add kar dena" — matlab agent.md rule #7
+  (har conversation/task/change BILKUL log karna, kuch mat chhodna) hamesha strict
+  follow karna hai.
 
 - [\.env] — **ALL SECRETS RESTORED** (user request: "env file me secrets dikh nahi rahe").
   Render API (`srv-dab96mv10e5c73a8lpug` oregon service) se saare env vars fetch kiye
