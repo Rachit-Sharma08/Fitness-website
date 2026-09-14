@@ -18,13 +18,13 @@ const homeServices = [
   { icon: TrendingUp, title: "Weight Gain", desc: "Lean muscle gain programs with guided nutrition & trainer support." },
   { icon: Flame, title: "Weight Loss", desc: "Fat-loss plans with HIIT, diet guidance and regular progress tracking." },
   { icon: Leaf, title: "Yoga", desc: "Morning yoga sessions for flexibility, posture and a peaceful mind." },
-  { icon: Zap, title: "Modern Equipment", desc: "New imported machines — the best gym equipment in Kaithal." },
+  { icon: Zap, title: "Modern Equipment", desc: "New imported machines — modern, well-maintained and ready for serious lifters." },
 ];
 
 const faqs = [
   {
     q: "Is Infinity Fitness the best gym in Kaithal?",
-    a: "Infinity Fitness Gym is one of the top-rated gyms in Kaithal. With a 4.2-star rating from 40+ Google reviews, modern equipment, trained coaches and a serious workout crowd — it is consistently rated as one of the best gym options in the Rishi Nagar area of Kaithal."
+    a: "Infinity Fitness Gym is one of the top-rated gyms in Kaithal. With a 4.2-star rating from 40+ Google reviews, modern equipment, trained coaches and a serious workout crowd — it is consistently rated highly in the Rishi Nagar area of Kaithal."
   },
   {
     q: "How much are the gym fees — monthly charges in Kaithal?",
@@ -36,7 +36,7 @@ const faqs = [
   },
   {
     q: "Where is the gym located — address?",
-    a: "Infinity Fitness Gym — Kaithal–Dhand Rd, Opp. Maharaja Palace, Rishi Nagar, Kaithal, Haryana 136027. We are easily accessible from Kurukshetra, Karnal, Hisar, Cheeka, Titram, Keorak, Geong, Chandana, Shergarh, Deod Kheri, Khurana, Sanghan, Patti Afghan, Siwan, Khanpur, Polar, Sotha, Kawartan, Harnola, Kheri, Gulam Kheri, Rasulpur, Farshmajra, Kangthali, Firojpur, Dohar, Ateli, Balu and all nearby areas in Kaithal district. Search 'Infinity Fitness Gym Kaithal' on Google Maps."
+    a: "Infinity Fitness Gym — Kaithal–Dhand Rd, Opp. Maharaja Palace, Rishi Nagar, Kaithal, Haryana 136027. Easily accessible from Kurukshetra, Karnal, Hisar, Cheeka and all nearby areas in Kaithal district. Search 'Infinity Fitness Gym Kaithal' on Google Maps."
   },
   {
     q: "What are the timings?",

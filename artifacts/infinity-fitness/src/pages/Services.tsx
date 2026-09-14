@@ -13,42 +13,42 @@ const programs = [
     id: 'strength',
     title: 'Strength Training',
     icon: Dumbbell,
-    description: 'Build raw power and muscle mass with our extensive free weights area. Whether you are a powerlifter or just starting to lift, we have the iron you need.',
+    description: 'Build raw power and muscle mass with our extensive free weights area. Our Kaithal-based trainers design progressive programs, so whether you are a powerlifter or just starting to lift, we have the iron you need.',
     inclusions: ['Free weights & barbells', 'Multiple power racks', 'Progressive overload tracking']
   },
   {
     id: 'cardio',
     title: 'Cardio',
     icon: HeartPulse,
-    description: 'Improve your endurance, cardiovascular health, and stamina. Our cardio zone features top-of-the-line equipment designed to keep your heart rate up.',
+    description: 'Improve your endurance, cardiovascular health, and stamina. Our cardio zone in Kaithal features top-of-the-line equipment designed to keep your heart rate up.',
     inclusions: ['Treadmills & ellipticals', 'Stationary cycles', 'Rowing machines']
   },
   {
     id: 'weight-gain',
     title: 'Weight Gain',
     icon: TrendingUp,
-    description: 'Struggling to put on size? Our specialized bulking programs combine heavy lifting protocols with precise nutritional guidance to help you pack on muscle.',
+    description: 'Struggling to put on size? Our specialized bulking programs at Infinity Fitness Kaithal combine heavy lifting protocols with precise nutritional guidance to help you pack on muscle.',
     inclusions: ['Muscle building protocols', 'Nutrition & supplement guidance', 'Hypertrophy focus']
   },
   {
     id: 'weight-loss',
     title: 'Weight Loss',
     icon: Flame,
-    description: 'Torch fat and lean out with high-intensity training. We focus on sustainable weight loss through metabolic conditioning and proper diet advice.',
+    description: 'Torch fat and lean out with high-intensity training. We focus on sustainable weight loss through metabolic conditioning and proper diet advice — a proven approach for members across Kaithal.',
     inclusions: ['Fat loss programs', 'HIIT workouts', 'Metabolic conditioning']
   },
   {
     id: 'yoga',
     title: 'Yoga',
     icon: Leaf,
-    description: 'Find your center, improve flexibility, and enhance recovery. Our yoga sessions are designed to complement your heavy lifting and reduce stress.',
+    description: 'Find your center, improve flexibility, and enhance recovery. Our morning yoga sessions in Kaithal are designed to complement your heavy lifting and reduce stress.',
     inclusions: ['Flexibility training', 'Mindfulness & breath work', 'All experience levels']
   },
   {
     id: 'modern-equipment',
     title: 'Modern Equipment',
     icon: Zap,
-    description: 'Isolate muscles effectively and train safely with our extensive range of modern pin-loaded machines, cables, and functional training tools.',
+    description: 'Isolate muscles effectively and train safely with our extensive range of modern pin-loaded machines, cables, and functional training tools — some of the newest equipment available in Kaithal.',
     inclusions: ['Latest selectorized machines', 'Cable crossover stations', 'Functional training area']
   }
 ];

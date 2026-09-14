@@ -177,7 +177,7 @@ export function Contact() {
               className="bg-card border border-border p-8 md:p-10"
             >
               <h2 className="text-3xl font-display font-bold uppercase tracking-wider mb-2">Send an Inquiry</h2>
-              <p className="text-muted-foreground mb-8">Want to join the best gym in Kaithal? Fill out the form below and we'll get back to you within 24 hours about membership, free trial, or any questions. We welcome members from Kurukshetra, Karnal, Hisar, Cheeka, Titram, Keorak, Geong, Chandana, Shergarh, Deod Kheri, Khurana, Sanghan, Patti Afghan, Siwan, Khanpur, Polar, Sotha, Kawartan, Harnola, Kheri, Gulam Kheri, Rasulpur, Farshmajra, Kangthali, Firojpur, Dohar, Ateli, Balu and all nearby areas.</p>
+              <p className="text-muted-foreground mb-8">Ready to start your fitness journey? Fill out the form below and we'll get back to you within 24 hours about membership, free trial, or any questions. We welcome members from across Kaithal district, Kurukshetra, Karnal, Hisar, and nearby areas.</p>
 
               <AnimatePresence mode="wait" initial={false}>
               {formStatus === 'submitted' ? (

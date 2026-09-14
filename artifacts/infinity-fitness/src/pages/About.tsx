@@ -86,10 +86,10 @@ export function About() {
               Infinity Fitness Gym in Kaithal wasn't built to be just another place with some treadmills and weights. We set out to create a sanctuary for those who are serious about changing themselves — a fitness center in Rishi Nagar where the iron speaks louder than excuses.
             </p>
             <p>
-              Located in the heart of Kaithal on Dhand Road, Rishi Nagar, we've poured our passion into curating a gym environment that fosters raw power and community warmth. Whether you're here for weight loss, muscle gain, personal training, or just find your daily peace through yoga — our doors are open to everyone willing to put in the work. People from Kurukshetra, Karnal, Hisar, Cheeka, Titram, Keorak, Geong, Chandana, Shergarh, Deod Kheri, Khurana, Sanghan, Patti Afghan, Siwan, Khanpur, Polar, Sotha, Kawartan, Harnola, Kheri, Gulam Kheri, Rasulpur, Farshmajra, Kangthali, Firojpur, Dohar, Ateli, Balu and all nearby areas in Kaithal district train with us.
+              Located in the heart of Kaithal on Dhand Road, Rishi Nagar, we've poured our passion into curating a gym environment that fosters raw power and community warmth. Whether you're here for weight loss, muscle gain, personal training, or just find your daily peace through yoga — our doors are open to everyone willing to put in the work. Members travel from Kurukshetra, Karnal, Hisar, Cheeka and nearby areas to train with us.
             </p>
             <p>
-              We believe fitness isn't a luxury — it's a necessity. That's why we combine top-tier, modern equipment with affordable gym memberships in Kaithal. When you step into Infinity Fitness, you're not a client; you're family. That's what makes us one of the best gyms in Kaithal.
+              We believe fitness isn't a luxury — it's a necessity. Since opening in Kaithal, Infinity Fitness Gym has helped hundreds of members lose weight, build muscle, and find their confidence. We combine top-tier, modern equipment with affordable gym memberships — when you step into Infinity Fitness, you're not a client; you're family. That's what sets us apart in the community.
             </p>
           </motion.div>
         </div>

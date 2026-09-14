@@ -12,7 +12,7 @@ interface PageMeta {
 export const PAGE_META: Record<string, PageMeta> = {
   '/': {
     title: `Best Gym in ${LOCATION} | ${SITE_NAME} | Fitness & Training`,
-    description: `${SITE_NAME} is the best gym in ${LOCATION} — Strength Training, Cardio, Weight Loss, Weight Gain, Yoga & Personal Training in Rishi Nagar. Open till 11 PM daily. Serving Kurukshetra, Karnal, Hisar, Cheeka, Titram, Keorak & all nearby areas.`,
+    description: `${SITE_NAME} — Strength Training, Cardio, Weight Loss, Weight Gain, Yoga & Personal Training in Rishi Nagar. Open till 11 PM daily. Serving Kaithal, Kurukshetra, Karnal, Hisar & nearby areas.`,
   },
   '/about': {
     title: `About ${SITE_NAME} | Best Fitness Center in ${LOCATION}`,
@@ -28,14 +28,14 @@ export const PAGE_META: Record<string, PageMeta> = {
   },
   '/gallery': {
     title: `Gym Gallery & Photos | ${SITE_NAME} ${LOCATION}`,
-    description: `Take a look inside ${SITE_NAME} — ${LOCATION}'s best gym in Rishi Nagar with modern equipment, spacious workout floors, cardio zone, powerlifting area and more. See why members love us.`,
+    description: `Take a look inside ${SITE_NAME} — ${LOCATION}'s fitness center in Rishi Nagar with modern equipment, spacious workout floors, cardio zone, powerlifting area and more. See why members love us.`,
   },
   '/testimonials': {
     title: `Member Reviews & Testimonials | ${SITE_NAME} ${LOCATION}`,
-    description: `Read real reviews from members of ${SITE_NAME}, the best gym in ${LOCATION}. Rated 4.2/5 on Google with 40+ reviews. Find out why members call us Kaithal's top fitness center.`,
+    description: `Read real reviews from members of ${SITE_NAME} in ${LOCATION}. Rated 4.2/5 on Google with 40+ reviews. Find out why members call us Kaithal's top fitness center.`,
   },
   '/contact': {
-    title: `Contact ${SITE_NAME} | Best Gym in ${LOCATION}`,
+    title: `Contact ${SITE_NAME} | Gym in ${LOCATION}`,
     description: `Contact ${SITE_NAME}, ${LOCATION} — Rishi Nagar, Dhand Rd, 136027. Call +91 81688 28832 for membership, timings & free trial. Open 5 AM–11 PM daily. Serving Kurukshetra, Karnal, Hisar, Cheeka & nearby areas.`,
   },
   '/owner': {

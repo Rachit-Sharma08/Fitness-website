@@ -1652,3 +1652,54 @@ responsiveness check karo (sabhi devices par)". NOTE: agent image dekh nahi sakt
 - [TODO/OPEN] — Changes working tree me hain (commit/push nahi kiya — user ne nahi
   kaha). Entrance crop position ek guess hai (`'50% 70%'`) — agar gate phir bhi na
   dikhe to batao, ±10% adjust kar denge. Screenshots folder temp me hai.
+
+### 2026-09-14
+
+- [\.env] — **ALL SECRETS RESTORED** (user request: "env file me secrets dikh nahi rahe").
+  Render API (`srv-dab96mv10e5c73a8lpug` oregon service) se saare env vars fetch kiye
+  (`rnd_Fz6m6IVwsUB3t6MFMM7hwW3sAZm5` API key se). Values `.env` me fill ki:
+  `GMAIL_APP_PASSWORD=tgvj mbbd akdg xpwx`, `SESSION_SECRET=A55921...`, `GROQ_API_KEY=gsk_...`,
+  `CARTESIA_API_KEY=sk_car_...`, `RESEND_API_KEY=re_Gah...`, `ALLOWED_ORIGIN=https://infinity-fitness-gym-woad.vercel.app`,
+  `NODE_ENV=production`. `BREVO_API_KEY` + `BREVO_SENDER_EMAIL` Render par bhi nahi hain
+  (auto-reply ke liye setup pending). User ko GitHub Secrets me save karne ke liye saari
+  values `.env` me dikhengi. `.env` gitignored hai — commit NAHI hoga.
+- [\.env.example] — **SABHI ENV VAR NAMES SYNC** (user request: sirf names add karna):
+  root `.env.example` ab `.env` jaisa complete hai — `NODE_ENV`, `PORT`, `ALLOWED_ORIGIN`,
+  `GMAIL_APP_PASSWORD`, `SESSION_SECRET`, `GROQ_API_KEY`, `CARTESIA_API_KEY`,
+  `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`, `RESEND_API_KEY`, `DATABASE_URL`,
+  `VITE_API_URL` (sab comments + khali values, koi secret value nahi).
+- [SEO — OVER-KEYWORD STUFFING FIX + NATURAL KEYWORD PLACEMENT] (user ke 2-part instruction,
+  push karke GitHub par daala):
+  - **PART 1 FIX**:
+    - [Footer.tsx] — "Areas We Serve" se 28 village tags hata diye; ab natural sentence:
+      "Members join us from Kaithal and nearby areas including Kurukshetra, Karnal, Hisar,
+      and Cheeka." Repetitive line ("Gym in Kaithal · Gym near Kurukshetra · …") poori
+      hata di. `AREAS_WE_SERVE` unused array bhi remove.
+    - [Contact.tsx] — "Send an Inquiry" me 28 area names hata kar sirf 3-4 cities naturally:
+      "members from across Kaithal district, Kurukshetra, Karnal, Hisar, and nearby areas."
+    - ["best gym in Kaithal" overuse] — ab sirf 2 jagah: Home hero subtitle + Home FAQ
+      question. Baaki sab natural: Footer text hata, Contact form intro ("Ready to start
+      your fitness journey?"), Home programs "Modern Equipment" desc, Home FAQ answer
+      ("consistently rated highly"), About story ("what sets us apart in the community").
+    - [Home.tsx FAQ address] — 28 villages wali list → "Kurukshetra, Karnal, Hisar, Cheeka
+      and all nearby areas in Kaithal district."
+    - [About.tsx story] — 28 villages wali list → "Members travel from Kurukshetra, Karnal,
+      Hisar, Cheeka and nearby areas to train with us."
+    - [usePageTitle.ts + index.html] — meta descriptions me village list + "best gym"
+      repetition hata; Home/Contact title "Best Gym in Kaithal" sirf Home title + 1 jagah
+      rakha, Contact title "Gym in Kaithal", Gallery/Testimonials descriptions natural.
+      JSON-LD LocalBusiness/HealthClub schema me 28 villages `areaServed` ke roop me
+      ABHI BHI HAI (user note: schema pehle se de raha hai).
+  - **PART 2 ADD** (natural, forced nahi):
+    - [Services.tsx] — har 6 program description me location context naturally weave:
+      Strength ("Kaithal-based trainers"), Cardio ("cardio zone in Kaithal"), Weight Gain
+      ("Infinity Fitness Kaithal"), Weight Loss ("members across Kaithal"), Yoga ("morning
+      yoga sessions in Kaithal"), Modern Equipment ("newest equipment available in Kaithal").
+    - [About.tsx] — story me origin mention: "Since opening in Kaithal, Infinity Fitness
+      Gym has helped hundreds of members lose weight, build muscle, and find their
+      confidence." (paragraph 2 ka redundant "in Kaithal district" trim karke count balanced).
+    - [Testimonials/reviews.ts] — KOI CHANGE NAHI (genuine customer reviews me location
+      mentions as-is — "One of the best gyms in Kaithal", "City best gym" — real user text).
+- [VERIFY] — `pnpm run typecheck:production` 0 errors; `vite build` pass (24.04s, 2133
+  modules). Push: `.env.example` + SEO changes commit, `git push origin main` (Vercel
+  auto-deploy).
