@@ -71,12 +71,14 @@ export function HeroVideoCarousel() {
       <video
         ref={videoRef}
         src="/infinity.mp4"
+        poster="/hero-poster.jpg"
         className="absolute inset-0 w-full h-full object-cover"
+        aria-label="Infinity Fitness Gym training montage background video"
         autoPlay
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         disablePictureInPicture
         controlsList="nodownload noplaybackrate"
       />

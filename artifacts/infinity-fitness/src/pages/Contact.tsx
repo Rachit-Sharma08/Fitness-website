@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Phone, Clock, Instagram, Mail, Send, CheckCircle2, Loader2 } from 'lucide-react';
+import { MapPin, Phone, Clock, Instagram, Mail, Send, CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
 import { GymHeroSlideshow } from '@/components/GymHeroSlideshow';
+import { gymPhotos } from '@/lib/gymPhotos';
 import { API_BASE } from '@/lib/apiBase';
 import { usePageTitle } from '@/lib/usePageTitle';
 
@@ -48,8 +50,8 @@ export function Contact() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[70svh] min-h-[500px] flex items-center justify-center pt-20 overflow-hidden">
-        <GymHeroSlideshow startIndex={6} />
+      <header className="relative h-[70svh] min-h-[500px] flex items-center justify-center pt-20 overflow-hidden">
+        <GymHeroSlideshow slides={gymPhotos} startIndex={2} />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -65,7 +67,7 @@ export function Contact() {
             </p>
           </motion.div>
         </div>
-      </section>
+      </header>
 
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,7 +81,7 @@ export function Contact() {
               className="space-y-12"
             >
               <div>
-                <h2 className="text-3xl font-display font-bold uppercase tracking-wider mb-8">Location & Info</h2>
+                <h2 className="text-3xl font-display font-bold uppercase tracking-wider mb-8">Location &amp; Info</h2>
                 <div className="space-y-8">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-white/5 flex items-center justify-center shrink-0">
@@ -175,7 +177,7 @@ export function Contact() {
               className="bg-card border border-border p-8 md:p-10"
             >
               <h2 className="text-3xl font-display font-bold uppercase tracking-wider mb-2">Send an Inquiry</h2>
-              <p className="text-muted-foreground mb-8">Fill out the form below and we'll get back to you within 24 hours.</p>
+              <p className="text-muted-foreground mb-8">Ready to start your fitness journey? Fill out the form below and we'll get back to you within 24 hours about membership, free trial, or any questions. We welcome members from across Kaithal district, Kurukshetra, Karnal, Hisar, and nearby areas.</p>
 
               <AnimatePresence mode="wait" initial={false}>
               {formStatus === 'submitted' ? (
@@ -333,6 +335,26 @@ export function Contact() {
               </AnimatePresence>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Internal CTA */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-6"
+          >
+            <Link href="/membership" className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider hover:text-white transition-colors group">
+              View Membership Plans <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+            </Link>
+            <Link href="/services" className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider hover:text-white transition-colors group">
+              Explore Our Programs <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>

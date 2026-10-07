@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 import { motion } from 'framer-motion';
 import { useForceReducedMotion } from '@/lib/motion';
 import { ArrowRight, Phone, Dumbbell, HeartPulse, TrendingUp, Flame, Leaf, Zap, Clock, BadgeCheck, GraduationCap, MapPin, ChevronDown } from 'lucide-react';
-import { FaWhatsapp } from 'react-icons/fa';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { HeroVideoCarousel } from '@/components/HeroVideoCarousel';
 import { HeroPhotoStrip } from '@/components/HeroPhotoStrip';
 import { Reviews } from '@/components/sections/Reviews';
@@ -18,13 +18,13 @@ const homeServices = [
   { icon: TrendingUp, title: "Weight Gain", desc: "Lean muscle gain programs with guided nutrition & trainer support." },
   { icon: Flame, title: "Weight Loss", desc: "Fat-loss plans with HIIT, diet guidance and regular progress tracking." },
   { icon: Leaf, title: "Yoga", desc: "Morning yoga sessions for flexibility, posture and a peaceful mind." },
-  { icon: Zap, title: "Modern Equipment", desc: "New imported machines — the best gym equipment in Kaithal." },
+  { icon: Zap, title: "Modern Equipment", desc: "New imported machines — modern, well-maintained and ready for serious lifters." },
 ];
 
 const faqs = [
   {
     q: "Is Infinity Fitness the best gym in Kaithal?",
-    a: "One of the top-rated gyms in Kaithal. With a 4.2-star rating from 40+ Google reviews, modern equipment, trained coaches and a serious workout crowd — it is one of the best gym options in the Rishi Nagar area."
+    a: "Infinity Fitness Gym is one of the top-rated gyms in Kaithal. With a 4.2-star rating from 40+ Google reviews, modern equipment, trained coaches and a serious workout crowd — it is consistently rated highly in the Rishi Nagar area of Kaithal."
   },
   {
     q: "How much are the gym fees — monthly charges in Kaithal?",
@@ -36,7 +36,7 @@ const faqs = [
   },
   {
     q: "Where is the gym located — address?",
-    a: "Infinity Fitness Gym — Kaithal–Dhand Rd, Opp. Maharaja Palace, Rishi Nagar, Kaithal, Haryana 136027. Search 'Infinity Fitness Gym Kaithal' on Google Maps and you can reach us easily."
+    a: "Infinity Fitness Gym — Kaithal–Dhand Rd, Opp. Maharaja Palace, Rishi Nagar, Kaithal, Haryana 136027. Easily accessible from Kurukshetra, Karnal, Hisar, Cheeka and all nearby areas in Kaithal district. Search 'Infinity Fitness Gym Kaithal' on Google Maps."
   },
   {
     q: "What are the timings?",
@@ -56,7 +56,7 @@ export function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[100svh] flex items-center overflow-hidden pt-20 lg:pt-24">
+      <header className="relative min-h-[100svh] flex items-center overflow-hidden pt-20 lg:pt-24">
         {/* Video background */}
         <HeroVideoCarousel />
 
@@ -86,9 +86,10 @@ export function Home() {
                 transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
               >
                 <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8 font-medium">
-                  Kaithal's best gym for strength training, cardio, weight loss, weight
+                  Looking for the best gym in Kaithal? Infinity Fitness is Kaithal's top-rated
+                  fitness center for strength training, cardio, weight loss, weight
                   gain, yoga &amp; personal training — real equipment, real results,
-                  real people. Open 7 days till 11 PM.
+                  real people. Open 7 days till 11 PM in Rishi Nagar.
                 </p>
               </motion.div>
 
@@ -140,7 +141,7 @@ export function Home() {
 
           </div>
         </div>
-      </section>
+      </header>
 
       {/* About Snippet */}
       <section className="py-24 bg-background relative overflow-hidden">
@@ -156,14 +157,14 @@ export function Home() {
             className="max-w-3xl mx-auto space-y-8"
           >
             <h2 className="text-3xl md:text-5xl font-display font-bold uppercase tracking-wider">
-              More Than Just A <span className="text-primary">Gym</span>
+              More Than Just A <span className="text-primary">Gym in Kaithal</span>
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Infinity Fitness isn't a corporate chain where you're just a number. It's a neighborhood powerhouse in Kaithal built for those who take their goals seriously. We provide the heavy iron, the modern machines, and the intense atmosphere you need to push past your limits.
+              Infinity Fitness isn't a corporate chain where you're just a number. It's a neighborhood fitness center in Kaithal, Rishi Nagar — built for those who take their goals seriously. We provide the heavy iron, the modern machines, and the intense atmosphere you need to push past your limits. If you're searching for a gym near you in Kaithal that delivers real results, this is it.
             </p>
             <div>
               <Link href="/about" className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider hover:text-white transition-colors group">
-                Learn More <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                More About Our Gym <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
               </Link>
             </div>
           </motion.div>
@@ -177,9 +178,9 @@ export function Home() {
             <h2 className="text-3xl md:text-5xl font-display font-bold uppercase tracking-wider">
               Why Members <span className="text-primary">Choose Us</span>
             </h2>
-            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-              The community gym in Kaithal known for delivering results to its members.
-            </p>
+              <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+                Kaithal's best fitness center — known for delivering real results to its members.
+              </p>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -187,7 +188,7 @@ export function Home() {
               { icon: Clock, title: "Open Every Day", desc: "5 AM – 11 PM · Open 7 days a week.", href: "/contact" },
               { icon: BadgeCheck, title: `${FREE_TRIAL_DAYS}-Day Free Trial`, desc: `First ${FREE_TRIAL_DAYS} days absolutely free.`, modal: true },
               { icon: GraduationCap, title: "Trained Coaches", desc: "Personal training & nutrition guidance at every step.", href: "/services" },
-              { icon: MapPin, title: "Rishi Nagar, Kaithal", desc: "Close to home — Dhand Rd, Opp. Maharaja Palace.", external: "https://www.google.com/maps/search/Infinity+Fitness+Gym,+Rishi+Nagar,+Kaithal" },
+              { icon: MapPin, title: "Rishi Nagar, Kaithal", desc: "Dhand Rd, Opp. Maharaja Palace — serving Kaithal & nearby villages.", external: "https://www.google.com/maps/search/Infinity+Fitness+Gym,+Rishi+Nagar,+Kaithal" },
             ].map((item, i) => {
               const card = (
                 <motion.div
@@ -208,8 +209,7 @@ export function Home() {
               );
               if (item.modal) {
                 return (
-                  <button key={i} onClick={openFreeTrial} className="block w-full h-full text-left cursor-pointer"
-                    aria-label={`${item.title} — click to book a free trial`}>
+                  <button key={i} onClick={openFreeTrial} className="block w-full h-full text-left cursor-pointer">
                     {card}
                   </button>
                 );
@@ -240,7 +240,7 @@ export function Home() {
                 Our <span className="text-primary">Programs</span>
               </h2>
               <p className="text-muted-foreground max-w-2xl">
-                Targeted training for every goal. Whatever you want to achieve, we have the tools and the expertise to get you there.
+                Training programs in Kaithal for every goal — strength, cardio, weight loss, weight gain, yoga and more. Whatever you want to achieve, we have the tools and the expertise to get you there.
               </p>
             </div>
             <Link href="/services" className="shrink-0 flex items-center gap-2 text-primary font-bold uppercase tracking-wider hover:text-white transition-colors group">
@@ -287,10 +287,10 @@ export function Home() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <p className="text-primary font-semibold uppercase tracking-[0.3em] text-sm mb-4">
-              Kaithal Gym &middot; Popular Questions
+              Gym in Kaithal &middot; Popular Questions
             </p>
             <h2 className="text-3xl md:text-5xl font-display font-bold uppercase tracking-wider">
-              Frequently Asked <span className="text-primary">Questions</span>
+              Frequently Asked <span className="text-primary">Questions</span> — Gym in Kaithal
             </h2>
           </div>
 
@@ -356,7 +356,7 @@ export function Home() {
                 className="inline-flex items-center justify-center bg-black/85 text-white px-8 py-4 font-display font-bold text-xl uppercase tracking-wider skew-x-[-10deg] hover:bg-black transition-colors group shadow-xl"
               >
                 <span className="skew-x-[10deg] flex items-center gap-2">
-                  <FaWhatsapp className="w-5 h-5 text-[#25D366]" /> WhatsApp Us
+                  <WhatsAppIcon className="w-5 h-5 text-[#25D366]" /> WhatsApp Us
                 </span>
               </a>
             </motion.div>

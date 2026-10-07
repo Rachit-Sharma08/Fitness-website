@@ -424,7 +424,7 @@ export function ChatBot() {
   return (
     <>
       {/* FAB */}
-      <motion.div ref={fabRef} className="fixed bottom-16 md:bottom-6 right-4 md:right-6 z-50"
+      <motion.div ref={fabRef} className="chatbot-fab fixed right-4 md:right-6 z-50"
         animate={open ? {} : { y: [0, -8, 0] }}
         transition={open ? {} : { duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}>
         <MagneticButton
@@ -488,10 +488,8 @@ export function ChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: 'blur(0)' }}
             exit={{ opacity: 0, y: 60, scale: 0.8, rotateX: 20, filter: 'blur(12px)' }}
             transition={{ type: 'spring', damping: 26, stiffness: 280, mass: 0.9 }}
-            className="fixed bottom-28 md:bottom-24 right-4 md:right-6 z-50 w-[400px] max-w-[calc(100vw-2rem)] rounded-3xl overflow-hidden flex flex-col"
+            className={`chatbot-panel ${minimized ? 'chatbot-panel--minimized' : ''} chatbot-panel-anchor fixed right-4 md:right-6 z-50 w-[400px] max-w-[calc(100vw-2rem)] rounded-3xl overflow-hidden flex flex-col`}
             style={{
-              height: minimized ? '72px' : '610px',
-              maxHeight: 'calc(100vh - 110px)',
               perspective: '1400px',
             }}
           >
@@ -755,12 +753,13 @@ export function ChatBot() {
                       }}>
                       <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKey}
                         placeholder="Ask about workouts, diet, supplements..."
+                        aria-label="Ask the fitness coach"
                         className="flex-1 bg-transparent text-white text-sm px-3 py-2.5 outline-none transition-all duration-200"
                         style={{ caretColor: '#ff6a00' }}
                         onFocus={e => { e.currentTarget.parentElement!.style.borderColor = 'rgba(255,106,0,0.35)'; e.currentTarget.parentElement!.style.boxShadow = 'inset 0 2px 10px rgba(0,0,0,0.25), 0 0 24px rgba(255,106,0,0.1)'; }}
                         onBlur={e => { e.currentTarget.parentElement!.style.borderColor = 'rgba(255,106,0,0.1)'; e.currentTarget.parentElement!.style.boxShadow = 'inset 0 2px 10px rgba(0,0,0,0.25), 0 0 20px rgba(255,106,0,0.03)'; }}
                       />
-                      <motion.button onClick={() => send()} disabled={!input.trim() || loading}
+                      <motion.button onClick={() => send()} disabled={!input.trim() || loading} aria-label="Send message"
                         whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
                         className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed relative overflow-hidden"
                         style={{

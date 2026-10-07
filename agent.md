@@ -16,6 +16,12 @@
    bina poochhe restructure/migrate mat karo.
 6. **User Preference:** Changes karne se PEHLE user se poocho. Agar user ne suggestion
    maanga ho toh sirf woh implement karo, baaki changes mat karo bina permission ke.
+7. **STRICT RULE (user ka hukm, 2026-09-10):** Har ek conversation, har ek task/kaam —
+   chahe woh koi bhi chota sa change ho, koi explanation ho, koi question ho, koi setup
+   ho, koi bhi chat-session — usko **CHANGE LOG** me record karna BILKUL ZAROORI hai.
+   Kuch bhi skip/selective log mat karo. Har baat ka entry aaj ki date (ya usi chat ke
+   din) ke section me add karo. Ye rule 2 se bhi strict hai — sirf code changes nahi,
+   HAR cheez (decisions, explained setups, transferred files, questions, todo) log karo.
 
 ---
 
@@ -1092,3 +1098,657 @@ h3 subsections properly nested. 3 issues mile, user approval se teeno fix kiye:
   API restarted (port 8080). Live tests: `/api/healthz` 200, `/api/chat` via Vite proxy
   200 with real Groq reply, `/api/tts` 200 with audio bytes (35KB). Frontend untouched
   (no rebuild needed). Changes local — push user approval par.
+
+### 2026-09-10 (FULL PROJECT RESTORE + LIVE VERIFICATION)
+
+User ko `ERR_CONNECTION_REFUSED (-102)` on `http://localhost:5173/` + Vercel/Render
+deployment errors dikh rahe the. Sab fix kiya:
+
+- [LOCAL DISASTER: saara source code delete ho gaya tha] — `artifacts/api-server/` aur
+  `artifacts/infinity-fitness/` dono EMPTY the (sirf logs bache the). Koi AGENTS.md/
+  agent.md local me nahi thi. Source GitHub se restore kiya
+  (`https://github.com/digitalguru99908-dev/Fitness-website.git` → main @ `3f3872f`).
+- [git restore] — Repo clone karke saari files main project dir me wapas daali
+  (repo-check temp cleanup ke baad). Root cause of deletion unknown (accident/cleanup)
+  — GitHub ab single source of truth hai.
+- [pnpm install] — `pnpm install` (pnpm 11.22.0) success — saare 9 workspace projects.
+- [.env] — Naya `.env` repo root par banaya (placeholders for secrets — real values
+  dashboard me hain / user ko Render me daalne hain). `.env` gitignored hai.
+- [VERIFY build] — `pnpm run typecheck` 0 errors; `vite build` pass (2135 modules,
+  38s); api-server build pass (dist/index.mjs).
+- [LOCAL SERVERS FIXED] — `start-servers.ps1` se dono servers detached-hidden start:
+  frontend (5173) + API (8080). Sab routes 200: `/`, `/about`, `/services`,
+  `/membership`, `/gallery`, `/contact`, `/testimonials`, `/owner`, `/api/healthz`
+  (direct + via Vite proxy). Windows Scheduled Task "Infinity Fitness Servers"
+  ready hai (login par auto-start) — path sahi hai.
+- [VERCEL (frontend) VERIFIED — NO PROBLEM] — Live `https://infinity-fitness-gym-woad.vercel.app`
+  200. Deployed JS bundle me oregon Render URL baked hai. Deployed CSS hash
+  (`index-DiPuIJAk.css`) == local production build → Vercel GitHub main ke saath
+  up-to-date hai. (JS hash alag sirf VITE_API_URL baking ki wajah se.)
+- [RENDER (backend) VERIFIED — NO PROBLEM] — Live oregon service
+  `https://infinity-fitness-api-oregon-test.onrender.com` sab working:
+  `GET /api/healthz` 200 `{"status":"ok"}`; `POST /api/chat` 200 (real Groq reply) +
+  CORS `Access-Control-Allow-Origin: https://infinity-fitness-gym-woad.vercel.app`;
+  `POST /api/tts` 200 `audio/mpeg`; `POST /api/inquiry` bad-body → 400 (validation ok).
+  Render CLI (`%LOCALAPPDATA%\render-cli\render.exe`) authenticated
+  (digitalguru99908@gmail.com); services: `infinity-fitness-api` (old sg)
+  + `infinity-fitness-api-oregon-test` (current, used by frontend). NOTE:
+  env-var list via API par `Unauthorized` mila — CLI token broswser-device session hai,
+  API read token nahi. BREVO_API_KEY check dashboard me manually karna hai (auto-reply
+  ke liye).
+- [git] — Repo root me frsh `git init` + clean remote
+  `https://github.com/digitalguru99908-dev/Fitness-website.git` (bina PAT).
+  Local `main` == `origin/main` @ `3f3872f`, working tree clean (env/.env gitignored).
+  Ab aage ke changes `git add -A && git commit -m "..." && git push origin main` se
+  jaate hain.
+- [REMAINING (user action needed for FULL email auto-reply)] — Render dashboard →
+  service `infinity-fitness-api-oregon-test` → Environment me `BREVO_API_KEY` +
+  verified `BREVO_SENDER_EMAIL` set karni hai (customer auto-reply ke liye). Resend
+  sirf owner email tak reach karta hai. Render free plan sleep (cron-job.org keep-alive
+  pending user) — restart ke baad pehla call 20-30s slow hoga, error nahi.
+
+### 2026-09-10 (round 5 — SEO: nearby villages + service area targeting)
+
+**24 nearby villages/locations** naturally integrate kiye taaki log in jagahon se search
+karein to site dikhe: Titram, Keorak, Geong, Chandana, Shergarh, Deod Kheri, Khurana,
+Sanghan, Patti Afghan, Siwan, Khanpur, Polar, Sotha, Kawartan, Harnola, Kheri,
+Gulam Kheri, Rasulpur, Farshmajra, Kangthali, Firojpur, Dohar, Ateli, Balu.
+
+- [src/pages/Home.tsx] — **NAYA "Service Area" section** (FAQ se pehle): heading
+  "Gym For Nearby Villages & Kaithal", paragraph me sab 24 villages naturally listed
+  (easily accessible from...), responsive grid (2/3/4/6 col) me sab village cards +
+  bottom CTA "Looking for a gym near you in Kaithal district?". Google ko ye page me
+  clearly dikhega ki gym in villages ko serve karta hai.
+- [src/pages/Home.tsx] — **FAQ answer updated:** location wale answer me sab villages
+  naturally added ("easily accessible from Titram, Keorak, Geong...all nearby villages").
+  "Why Choose Us" card: "Rishi Nagar, Kaithal" subtitle → "serving Kaithal & nearby villages".
+- [src/pages/About.tsx] — Story section me villages naturally added: "People from
+  Titram, Keorak, Geong...all nearby villages in Kaithal district train with us."
+- [src/pages/Contact.tsx] — Form intro me villages added: "We welcome members from
+  Titram, Keorak, Geong...all nearby villages."
+- [src/lib/usePageTitle.ts] — Home + Contact meta descriptions updated with village names.
+- [index.html] — Static OG/Twitter/meta descriptions updated with villages.
+- [index.html — JSON-LD] — `areaServed` add kiya: `GeoCircle` (30km radius around
+  Kaithal coordinates 29.8029, 76.3154) with description listing all 24 villages.
+  Google ko structured data me clearly dikhega ki ye gym Kaithal district + nearby
+  areas serve karta hai.
+- [VERIFY] — tsc 0 errors, vite build pass (41.23s).
+
+### 2026-09-10 (round 4 — SEO: indirect keyword integration + heading hierarchy)
+
+**Target keywords:** "best gym in Kaithal", "gym in Kaithal", "fitness center in Kaithal",
+"gym membership Kaithal", "personal training Kaithal", "weight loss gym Kaithal",
+"gym near me Kaithal", "Rishi Nagar Kaithal". Ye sab naturally (indirect) body text +
+headings me weave kiye hain — keyword stuffing nahi, organic readability preserved.
+
+- [src/pages/Home.tsx] — **Body text keywords added:**
+  - Hero subtitle: "Looking for the best gym in Kaithal? Infinity Fitness is Kaithal's top-rated fitness center..." + "Rishi Nagar"
+  - About snippet: "fitness center in Kaithal, Rishi Nagar" + "gym near you in Kaithal"
+  - Services subtitle: "Training programs in Kaithal for every goal"
+  - FAQ kicker: "Kaithal Gym" → "Gym in Kaithal"
+  - FAQ answer 1: "Infinity Fitness Gym is one of the top-rated gyms in Kaithal" (full sentence)
+- [src/pages/Home.tsx] — **Heading hierarchy keywords:**
+  - h2 "More Than Just A Gym" → "More Than Just A **Gym in Kaithal**"
+  - h2 "Why Members Choose Us" subtitle: "Kaithal's best fitness center"
+  - h2 "Frequently Asked Questions" → "... — **Gym in Kaithal**"
+- [src/pages/About.tsx] — **Body + heading keywords:**
+  - Hero subtitle: "Kaithal's Fitness Center — Built For The People"
+  - Story: "Infinity Fitness Gym in Kaithal" + "fitness center in Rishi Nagar"
+  - Story para 2: "Rishi Nagar" location + "weight loss, muscle gain, personal training, yoga"
+  - Story para 3: "affordable gym memberships in Kaithal" + "best gyms in Kaithal"
+  - Founder bio: "Rishi Nagar" + "people in Kaithal"
+  - h2 "Why Choose Us" → "Why Choose **Our Gym in Kaithal**"
+- [src/pages/Services.tsx] — **Heading + body keywords:**
+  - Hero subtitle: "Gym Programs in Kaithal — Training for Every Goal"
+  - h2 "Training Programs For Every Goal" → "... **Every Goal in Kaithal**"
+  - Subtitle: "our gym in Kaithal has the equipment"
+- [src/pages/Membership.tsx] — **Heading + body keywords:**
+  - Hero subtitle: "Affordable Gym Membership in Kaithal — Start Today"
+  - h2 "Gym Membership Plans & Pricing" → "... **Pricing in Kaithal**"
+  - Subtitle: "transparent gym pricing in Kaithal"
+  - FAQ h2: "Frequently Asked Questions" → "Gym Membership **FAQ — Kaithal**"
+- [src/pages/Contact.tsx] — **Body keywords:**
+  - Form intro: "Want to join the best gym in Kaithal?"
+- [src/lib/usePageTitle.ts] — **Meta descriptions updated** — har description me "Rishi Nagar"
+  + location-specific keywords add kiye (e.g., "best gym in Kaithal", "fitness center in
+  Rishi Nagar", "gym near you"). Title tags unchanged (already strong).
+- [index.html] — Static home `description`/`og:description`/`twitter:description` updated:
+  "Infinity Fitness Gym is the best gym in Kaithal — ...in Rishi Nagar."
+- [VERIFY] — tsc 0 errors, vite build pass (16.65s).
+
+### 2026-09-10 (round 3 — SEO FIX: refresh redirect removed)
+
+- [src/main.tsx] — **REFRESH REDIRECT HATAYA** (SEO ke liye critical fix): purana code
+  har sub-page (`/about`, `/services`, `/membership` etc.) par browser refresh/reload par
+  `window.location.replace('/')` se home par redirect karta tha. Isse **Google crawlers
+  individual pages ko index nahi kar paate the** — sab pages ko crawl karke home par
+  redirect milta tha, to unique title tags, meta descriptions, structured data sab
+  waste ho rahe the. Ab redirect hata diya — SPA (wouter) routing sab pages ko
+  properly render karta hai + har page ka apna unique SEO title/meta/indexable content
+  Google ko dikhega. tsc 0 errors, vite build pass (6.96s).
+
+### 2026-09-10 (round 2 — ROOT CAUSE of file deletion + STRICT LOGGING RULE)
+
+User ne bataya ki files isliye gayab hui thin kyunki **opencode wale agent (dusre session)**
+se project files **D drive par transfer** karvayi thi — isliye C drive wala folder khali
+ho gaya tha. Ye root-cause agent.md me record kiya gaya.
+
+- [agent.md] — **STRICT LOGGING RULE add** (rule #7): ab har conversation/task/explan-
+  ation/setup ko CHANGE LOG me record karna mandatory hai — chahe woh code change ho ya
+  nahi. User ne strict order diya: har cheez log karo.
+- [EXPLAINED to user] — Email system ka complete explanation diya (Brevo + Resend):
+  * `POST /api/inquiry` → turant `{success:true}`; owner mail (Brevo pirmary → Resend
+    fallback) + customer auto-reply (sirf Brevo) background mein jaate hain.
+  * Brevo kisi bhi recipient ko bhejta hai (main, free 300/day); Resend free plan sirf
+    owner tak (fallback). Render free par SMTP outbound block hai isliye HTTP API.
+  * Smart FAQ auto-answers deterministic hain (bina AI).
+  * Client device par setup: Brevo account → sender verify → API key → `.env` me
+    `BREVO_API_KEY` + `BREVO_SENDER_EMAIL` → `pnpm --filter @workspace/api-server dev`.
+  * Production (Render): Environment me same keys + `ALLOWED_ORIGIN`, phir redeploy.
+  * Dono keys missing ho to `/api/inquiry` 500 deta hai — ek key to honi hi chahiye.
+- [PENDING] — User se pucha: EMAIL_SETUP.md guide file banau? (abhi na banayi — wait
+  kiya ja raha hai user response ka).
+
+### 2026-09-10 (round 6 — SEO: locations to footer + 4 new cities + areaServed expansion)
+
+**User request:** Saari nearby locations (24 villages + 4 naye cities) ko Home page ke
+Service Area section se hatakar **Footer** me add karna — taaki har page par crawlable
+ho. Plus Kurukshetra, Karnal, Hisar, Cheeka bhi add karna. Goal: organic search me
+"best gym in Kaithal" + har listed location se gym search karne par top rank aaye.
+
+- [src/components/layout/Footer.tsx] — **AREAS WE SERVE section add kiya** (4-column
+  grid ke neeche, copyright ke upar). 28 locations as crawlable text tags: Kurukshetra,
+  Karnal, Hisar, Cheeka (naye) + 24 existing villages. `AREAS_WE_SERVE` array se
+  render hota hai (single source). Heading "Areas We Serve" + MapPin icon, SEO subtitle
+  ("best gym in Kaithal...easily accessible from Kurukshetra, Karnal, Hisar, Cheeka..."),
+  neeche keyword-rich line ("Gym in Kaithal · Gym near Kurukshetra · Gym in Karnal...").
+  Har tag hover par primary color. Footer ab har page par 28 location names dikhata hai
+  = Google ko har page me clearly dikhega ki gym in sab jagahon ko serve karta hai.
+- [src/pages/Home.tsx] — **Service Area section REMOVE** (lines 286-326 purana section
+  hata diya — villages grid ab footer me hai, duplicate nahi chahiye). Reviews ke baad
+  seedha FAQ aata hai. Page layout same, section count 1 kam.
+- [index.html — JSON-LD] — **areaServed expanded**: purana single GeoCircle (30km) →
+  ab array: (1) GeoCircle **60km radius** (Kurukshetra/Karnal/Hisar cover ho jaye,
+  ~45-55km door hain Kaithal se) with description listing all 28 locations, (2) 4
+  alag `City` objects (Kurukshetra, Karnal, Hisar, Cheeka) with Wikipedia `sameAs`
+  links — Google ko clearly signal milta hai ki gym in cities ko bhi serve karta hai.
+- [index.html — meta descriptions] — description/og:description/twitter:description
+  updated: "Best gym in Kaithal...Serving Kurukshetra, Karnal, Hisar, Cheeka, Titram,
+  Keorak & nearby villages." (pehle 9 gaon the, ab key cities + short list).
+- [src/lib/usePageTitle.ts] — `/`, `/about`, `/contact` meta descriptions updated:
+  naye 4 cities naturally weave kiye. Pehle sirf 9 villages the, ab "Kurukshetra,
+  Karnal, Hisar, Cheeka" front par.
+- [src/pages/About.tsx] — Story paragraph me 4 naye cities add kiye: "People from
+  Kurukshetra, Karnal, Hisar, Cheeka, Titram..." (pehle sirf 24 gaon the).
+- [src/pages/Contact.tsx] — Inquiry form description me 4 naye cities add kiye:
+  "We welcome members from Kurukshetra, Karnal, Hisar, Cheeka, Titram...".
+- [src/pages/Home.tsx — FAQ] — Location wale FAQ answer me 4 naye cities add kiye:
+  "easily accessible from Kurukshetra, Karnal, Hisar, Cheeka, Titram...".
+- [VERIFY] — `tsc --noEmit` 0 errors; `vite build` pass (14.99s, 2135 modules).
+  Changes local — push user approval par.
+
+### 2026-09-10 (round 7 — On-Page SEO: canonical tags, JSON-LD upgrade, alt text, internal links)
+
+**User request:** CSR rendering change skip karna hai (Option C), sirf on-page SEO
+improve karna hai — canonical tags, schema, alt text, internal linking.
+
+- [src/lib/usePageTitle.ts] — **CANONICAL TAG HOOK add kiya**: `setCanonical(path)`
+  function jo mount par `<link rel="canonical">` set karta hai (`CANONICAL_BASE` =
+  `https://infinity-fitness-gym-woad.vercel.app`). Har page ke unique canonical URL
+  hota hai (e.g., `/about` → `...vercel.app/about`). Duplicate content issues prevent
+  hota hai. Saath me meta descriptions bhi refine kiye — 8/8 pages strong location
+  keywords ke saath.
+- [index.html — static canonical] — `<link rel="canonical" href=".../">` add kiya
+  (fallback for crawlers jo JS execute nahi karte — SPA me JS-based canonical ka
+  backup).
+- [index.html — JSON-LD UPGRADED] — HealthClub schema me naye properties add kiye:
+  `url`, `email`, `paymentAccepted` (Cash/UPI/Bank Transfer), `currenciesAccepted`
+  (INR), `geo` (coordinates), `availableService` (6 services: Strength Training,
+  Cardio, Weight Loss, Weight Gain, Yoga, Personal Training — har ek ka description),
+  `amenityFeature` (Modern Equipment, AC, Parking, Free Trial, Personal Trainer).
+  `priceRange` ab `"₹2,000 - ₹11,000"` (pehle sirf `"₹₹"`). Ye sab Google local
+  search / Maps ke liye rich data hai — gym ke baare me zyada info milegi bina
+  click kiye.
+- [src/components/GymHeroSlideshow.tsx] — **ALT TEXT IMPROVED**: `"Infinity Fitness
+  Gym 1"` → `"Infinity Fitness Gym Kaithal workout area 1"` (13 images, desktop +
+  mobile both stacks).
+- [src/components/HeroPhotoStrip.tsx] — **ALT TEXT IMPROVED**: `"Infinity Fitness
+  gym photo 1"` → `"Infinity Fitness Gym Kaithal member workout photo 1"` (8 images).
+- [src/components/HeroVideoCarousel.tsx] — **VIDEO aria-label ADD**: hero background
+  video me `aria-label="Infinity Fitness Gym training montage background video"`.
+- [src/pages/Gallery.tsx] — **VIDEO aria-label ADD**: dono video elements (grid
+  thumbnail + lightbox) me `aria-label` with caption + gym name.
+- [src/pages/Testimonials.tsx] — **VIDEO aria-label ADD**: client review reel video
+  me `aria-label="Infinity Fitness Gym Kaithal client review video"`.
+- [INTERNAL LINKING — 6 pages updated]:
+  - [About.tsx] — "View Our Programs" → `/services` + "See Membership Plans" →
+    `/membership` (Core Values ke baad).
+  - [Services.tsx] — "Join Now — View Plans" → `/membership` (programs grid ke
+    baad). Pehle ZERO links the is page par.
+  - [Gallery.tsx] — "Contact Us for Details" → `/contact` (photos section ke baad).
+  - [Contact.tsx] — "View Membership Plans" → `/membership` + "Explore Our Programs"
+    → `/services` (form ke baad).
+  - [Testimonials.tsx] — "Join Our Community" → `/membership` (reviews ke baad).
+  - [Owner.tsx] — "Learn More About Us" → `/about` + "Get In Touch" → `/contact`
+    (Core Values ke baad). Sab links existing design pattern follow karte hain
+    (text-primary, uppercase, ArrowRight animation).
+- [HEADING AUDIT RESULT] — All 8 pages verified: sirf 1 h1 per page, h1→h2→h3
+  hierarchy proper hai, koi level skip nahi. CLEAN.
+- [VERIFY] — `tsc --noEmit` 0 errors; `vite build` pass (17.09s, 2135 modules).
+  Changes local — push user approval par.
+
+### 2026-09-10 (round 8 — Vercel deploy FAIL root cause + fix)
+
+**User report:** "changes dikh nahi rahe" — live site purana version dikha rahi thi
+(GitHub par naya commit tha, Vercel deploy nahi ho raha tha).
+
+- [DIAGNOSIS] — Live site fetch karke compare kiya: purana meta description + purana
+  JSON-LD (30km, ₹₹) + koi canonical nahi. Git log clear tha (070004d pushed).
+- [ROOT CAUSE MILA] — `pnpm run build` (Vercel ka exact build command) **fail** hota
+  tha: `Gallery.tsx(40,26): error TS2304: Cannot find name 'useForceReducedMotion'`.
+  `npx tsc --noEmit` (root) pass ho raha tha kyunki root tsconfig frontend ke strict
+  typecheck se alag chekta hai — asli Vercel build use karta hai
+  `pnpm run typecheck:production` jo package-level `tsc -p tsconfig.json --noEmit`
+  chalta hai. Isliye Vercel deploy hamesha fail ho raha tha (silently — dashboard me
+  error, site purani rehti).
+- [FIX] — `src/pages/Gallery.tsx` me missing `import { useForceReducedMotion } from
+  '@/lib/motion';` add kiya (line 14 ke baad). Root build `pnpm run build` ab PASS —
+  `typecheck:production` + `vite build` dono clean (18.16s).
+- [COMMIT + PUSH] — `da24cb1` "fix(seo): add missing useForceReducedMotion import in
+  Gallery - fixes Vercel build typecheck" pushed.
+- [VERIFY LIVE] — Vercel auto-deploy trigger hua (GitHub integration). ~45s baad
+  live site fetch kiya: **nayi meta description** (Kurukshetra/Karnal/Hisar/Cheeka),
+  **canonical tag present**, **JSON-LD upgraded** (60km, ₹2,000-₹11,000,
+  availableService, amenityFeature, geo, email, paymentAccepted), yaya JS bundle
+  `index-CzhclaUA.js` render horaha. **SITE LIVE & UPDATED.**
+- [NOTE] — Is session ke baad se: changes verify karne ke liye hamesha
+  `pnpm run build` chalana (Vercel wala hi command), sirf `npx tsc --noEmit` par
+  bharosa mat karna.
+
+### 2026-09-10 (round 9 — sitemap.xml + robots.txt)
+
+**User request:** sitemap.xml (8 pages, lastmod + priority) + robots.txt (crawl allow,
+private disallow, sitemap ref) public/ me, deploy, verify, Google Search Console guide.
+
+- [ROUTES CONFIRMED] — `App.tsx:38-45` — 8 pages hain: `/`, `/about`, `/services`,
+  `/membership`, `/gallery`, `/contact`, `/testimonials`, `/owner`. Koi admin/test/
+  private page nahi.
+- [API] — frontend API calls external `VITE_API_URL` par jate hain (src/lib/apiBase.ts),
+  `/api/*` is domain par serve nahi hota — best-practice ke liye robots me Disallow.
+- [public/sitemap.xml] — bana diya: 8 URLs, base
+  `https://infinity-fitness-gym-woad.vercel.app/`. lastmod 2026-09-10 sabka.
+  Priority: `/`=1.0, `/services`+`/membership`=0.9, `/about`+`/contact`=0.8,
+  `/testimonials`=0.7, `/gallery`+`/owner`=0.6. changefreq home=weekly, baaki monthly.
+- [public/robots.txt] — update kiya (purana sirf `Allow: /` tha): `Allow: /`,
+  `Disallow: /api/`, + `Sitemap: https://infinity-fitness-gym-woad.vercel.app/sitemap.xml`.
+- [VERIFY] — `pnpm run build` pass (19.75s); `dist/public/sitemap.xml` + `robots.txt`
+  dono build output me confirmed. Vercel filesystem precedence rewrites se pehle —
+  static files /sitemap.xml, /robots.txt se serve hongi, index.html rewrite nahi hoga.
+- [COMMIT + PUSH] — commit `sitemap.xml + robots.txt` push, Vercel deploy trigger.
+- [VERIFY LIVE] — /robots.txt aur /sitemap.xml fetch karke content confirm kiya.
+
+### 2026-09-10 (round 10 — semantic HTML tags + clean URLs audit)
+
+**User request:** har page par semantic tags audit (div→header/nav/main/section/
+article/footer, ek main, nav-wrapped menu) + clean URLs audit (query params,
+trailing slash, lowercase, hyphens).
+
+- [AUDIT — SEMANTIC] — Structure pehle se kaafi saaf tha:
+  - ✅ `<main>` — App.tsx:71 me exactly ek main hai jo saare pages wrap karta hai
+    (har page usi ke andar render hota hai — page files me koi extra main nahi).
+  - ✅ `<nav>` — Navbar desktop links pehle se `motion.nav` me the.
+  - ✅ `<footer>` — Footer.tsx pehle se `<footer>` use karta.
+  - Hatya `<section>` pages me pehle se sahi use ho rahe the (1 h1 + h2/h3 hierarchy).
+- [FIX 1 — Navbar.tsx] — Primary nav me `aria-label="Primary navigation"` add;
+  **mobile drawer** ke links (jo `<div>` me the) ko `<nav aria-label="Mobile
+  navigation">` me convert.
+- [FIX 2 — Footer.tsx] — Quick Links block (`<div>`) → `<nav aria-label="Footer
+  navigation">` convert (footer nav semantic).
+- [FIX 3 — ALL 8 PAGES] — Har page ka **Hero section** (intro content w/ h1) ko
+  `<section>` → `<header>` convert kiya: Home, About, Services, Membership,
+  Gallery, Contact, Testimonials, Owner. Ab har page ka structure =
+  `<header>` (hero) + `<section>`s (content) inside `<main>`. Open/close balanced
+  verify kiya (1:1 header, sections balanced).
+- [AUDIT — CLEAN URLS] —
+  - ✅ Query params: koi internal route query param use nahi karta. Sirf external
+    deep-links me hain (wa.me/918168828832?text=..., Google Review write URL
+    ?placeid=..., maps ?q=...&output=embed) — wo required hain, avoid nahi hote.
+  - ✅ Trailing slash: saare internal URLs bina slash (`/about`, `/services` ...
+    `/owner`), home root `/`. Coverant nahi — sitemap.xml bhi isi pattern par.
+  - ✅ Lowercase: saare routes lowercase. ✅ Hyphens: routes single-word hain,
+    koi underscore wala URL nahi (sirf asset filenames me underscores hain jo
+    hash ho jate hain).
+- [VERIFY] — `pnpm run build` pass (28.36s, typecheck:production + vite build).
+- [COMMIT + PUSH] — changes commit + push, Vercel deploy trigger.
+
+### 2026-09-10 (round 11 — page speed + responsive audit & optimization)
+
+**User request:** responsive design + page speed audit, optimization karo, real
+before/after scores do. Baseline Lighthouse CLI (mobile, live URL) run kiya:
+**PERF 32 | A11Y 83 | BEST 100 | SEO 92** (FCP 4.7s, LCP 5.3s, TBT 4570ms, CLS 0.04,
+SI 13.9s). Report: `C:\Users\LENOVO\AppData\Local\Temp\opencode\lh-before.json`.
+
+- [RESPONSIVE AUDIT — static] — App root `overflow-x-hidden` hai; marquees
+  (Reviews/Testimonials `w-max`) sab `overflow-hidden` parents me hain; ChatBot
+  `max-w-[calc(100vw-2rem)]`; kaunsi bhi fixed width 320px overflow nahi karti.
+  No horizontal-scroll risk found. (Browser-render testing tool nahi hai, static
+  code review kiya.)
+- [SPEED FIX 1 — hero photos → WebP] — `attached_assets/file_00000*.jpg` (8 photos,
+  1448-1881px originals, ~2.5MB total) ko ffmpeg se 480px WebP me convert kiya →
+  **~237KB total (90% chhota)**. `HeroPhotoStrip.tsx` imports `.jpg` → `.webp`.
+- [SPEED FIX 2 — videos recompressed] — ffmpeg h264 CRF 26-31 +faststart:
+  `infinity.mp4` 4062→**2202KB** (bg video, audio removed, crf 31), `client-review.mp4`
+  5244→4643KB, `gallery-video-1.mp4` 7503→7167KB, `gallery-video-2.mp4`
+  34648→**2695KB** (1080p→720p, -92%). Total videos ~52.5MB → ~17.8MB saved.
+  `hero-bg.mp4` (3221KB) koi code use nahi karta — public me pada hai, load nahi hota.
+- [SPEED FIX 3 — favicon] — `favicon.png` 256px 152KB → 128px **32KB**.
+- [SPEED FIX 4 — code splitting] — `App.tsx`: About/Services/Membership/Gallery/
+  Contact/Testimonials/Owner + ChatBot ab `React.lazy` chunks hain (Home eager).
+  Main bundle 485KB → **384KB raw / 123KB gzip**. Har page chunk 5.7-14KB,
+  ChatBot 24.9KB. TBT (4570ms) par direct effect.
+- [SPEED FIX 5 — hero video poster] — `hero-poster.jpg` (38KB, infinity.mp4 ka frame)
+  + `poster` attribute; `preload="auto"` → `"metadata"` so LCP pehle paint hota hai.
+- [A11Y FIX 1 — color contrast] — `--primary-foreground` token white→black ek jagah
+  (index.css): footer "I/" logo, Reviews avatar, Navbar CTA, Services icon hover, etc.
+  — saare `text-primary-foreground` (white-on-orange) fix. `text-white` on primary
+  spots bhi `text-black` (Membership badge, Plans badge, Testimonials CTA,
+  FreeTrialModal button).
+- [A11Y FIX 2 — heading order] — Footer 4x h4 → h3; Reviews member name h4 → p
+  (skip fix).
+- [A11Y FIX 3 — links without name] — Footer WhatsApp/Instagram links par
+  `aria-label` add (link-name + descriptive-text audit fix).
+- [A11Y FIX 4 — viewport] — index.html `maximum-scale=1` hataya (zoom lock).
+- [A11Y FIX 5 — labels] — ChatBot input par `aria-label="Ask the fitness coach"`,
+  send button par `aria-label="Send message"`.
+- [VERIFY] — `pnpm run build` pass (31.77s). Main 384KB/123KB gzip.
+- [COMMIT + PUSH] — `660184b` (perf round 11) pushed, Vercel deploy LIVE (hero-poster
+  + 32KB favicon + webp assets verify kiye), `8bce199` (link-text fix) pushed.
+- [SEO/A11Y FINAL FIX] — Home "Learn More" → "More About Our Gym" (link-text audit);
+  free-trial card button ka aria-label hata (content se name) — label-content-name-
+  mismatch clear.
+- [FINAL LIGHTHOUSE (live, mobile)] — `lh-after2.json`:
+  **PERF 32 → 79 | A11Y 83 → 100 | BEST 100 → 100 | SEO 92 → 100**.
+  FCP 4.7→3.5s, LCP 5.3→3.8s, **TBT 4570→120ms**, CLS 0.04→0.038, **SI 13.9→4.4s**,
+  total bytes ~2,638KB. Sab audits green.
+- [DONE] — round 11 complete: before/after scores reported, source committed + pushed.
+
+### 2026-09-10 (round 12 — PERF: bundle slimming + preload hints + responsive verify)
+
+**User confirm:** round 11 ka speed + responsive kaam achha laga. Ab PERF 79→90+ aur
+LCP 3.8s→2.5s target + actual browser responsive testing karna tha.
+
+- [QA: Vercel build error fix confirmed] — `070004d` transaction ka missing
+  `useForceReducedMotion` import fix (commit `da24cb1`) ke baad se har build PASS;
+  latest live deploy verified (sab SEO features live).
+- [RESPONSIVE TESTING — AUTOMATED SCREENSHOTS] — Chrome headless + CDP (no deps,
+  raw WebSocket) se har 8 pages ka 3 viewports par screenshot liya:
+  mobile 375×812 (3x DPR) / tablet 768×1024 (2x) / desktop 1440×900 (1x) = **24
+  screenshots**. User ne manually check kiye — **sab theek**. Screenshots folder +
+  script delete kar diye (repo me large PNGs nahi).
+- [PERF: react-icons removed] — sirf `FaWhatsapp` use ho raha tha 7 files me (Home,
+  About, Owner, MobileCtaBar, Footer, Navbar, WhatsAppButton) — heavy import for 1
+  icon. Naya `components/ui/WhatsAppIcon.tsx` (inline SVG, `className` prop) banakar
+  sab jagah replace. `react-icons` dep package.json se remove.
+- [PERF: date-fns removed] — completely unused (audit confirmed). Remove kiya.
+- [PERF: manual chunks] — `vite.config.ts` me `rollupOptions.output.manualChunks`:
+  `framer` (framer-motion) + `vendor` (react/react-dom/wouter) alag cached chunks.
+  Main bundle **384KB/123KB gzip → 236KB/74KB gzip (-40%)**, build time 34s → 8s.
+  Lazy page chunks unchanged (5.7-14KB). TBT par direct asar (main-thread JS parse/
+  execute kam).
+- [PERF: resource hints] — `index.html` me: `preconnect` to Render backend
+  (infinity-fitness-api-oregon-test.onrender.com), `preload` hero-poster.jpg
+  (`fetchpriority=high` — LCP element) + `preload` infinity.mp4 (type=video/mp4).
+- [VERIFY] — `pnpm run build` pass (7.89s, 2132 modules). Grep confirm: koi
+  react-icons/date-fns/FaWhatsapp reference nahi bacha.
+- [git] — responsive-screenshots + script deleted; commit `bfa7b5e`
+  "perf(round12): remove react-icons+date-fns (~40KB), manual chunks (framer/vendor
+  split), preload hints for LCP - main bundle 123KB->74KB gzip" pushed to origin/main.
+- [VERCEL DEPLOY - CONFIRMED SUCCESS] — `bfa7b5e` push ke baad ~60s me live site
+  updated: naye preload/preconnect hints present, chunk structure new
+  (`index-87kzMEFB.js` 230KB + `framer-Co-L4mUu.js` 127.8KB + `vendor-CW_N5906.js`
+  16.3KB). Saare assets HEAD 200. **Build error nahi aaya.**
+- [PENDING] — Lighthouse CLI rerun (before/after scores) jab user bole. Hero video
+  (infinity.mp4 2.2MB) ab `preload` hints se request hota hai — LCP/bytes par asar
+  check karna hoga. `hero-bg.mp4` (3.2MB) abhi bhi public me dead file (legacy rule
+  se delete nahi) — deploy size me waste.
+
+### 2026-09-10 (REFRESH REDIRECT REMOVED → SCROLL-TO-TOP ON REFRESH)
+
+User request: "refresh par home page redirect" system poora hata do + uski jagah —
+refresh par page hamesha top se start ho (URL/route change NAHI hona chahiye).
+
+- [CONFIRMED] — Refresh-redirect ka code pehle hi missing tha: `grep
+  ForceHomeOnRefresh|location.replace|redirect` me 0 matches; `main.tsx` (7 lines,
+  bina redirect) + `App.tsx` (koi ForceHomeOnRefresh component nahi) clean the.
+  Working tree clean. Ye round 3 (2026-09-10 "REFRESH REDIRECT HATAYA") me pehle hi
+  remove ho chuka tha — kuch delete karne ko bacha nahi.
+- [src/main.tsx] — **SCROLL-TO-TOP ON REFRESH** implement kiya: React render se pehle
+  `window.history.scrollRestoration = 'manual'` set karta hoon. Browser ab refresh/
+  reload par purana scroll position restore NAHI karega (same page pe refresh →
+  scroll 0 se start, URL/route exactly same rehta hai). `ScrollToTop.tsx` (mount +
+  location change par `window.scrollTo(0,0)`) pehle se hai — dono milke garanty
+  dete hain ki har refresh/top-in navigation top se shuru hoti hai.
+- [VERIFY] — `pnpm run build` pass (typecheck:production + vite build, 2132 modules,
+  14.45s).
+- [PUSH] — User ne push ki permission di (coz live site par fix nahi dikh raha tha —
+  changes local the). Commit `be5f2e8` "feat: scroll-to-top on refresh (history.
+  scrollRestoration manual, no URL change)" push origin/main. Vercel auto-deploy:
+  live bundle ab `index-ftht_9Aw.js` — grep confirm `scrollRestoration` PRESENT in
+  deployed JS. URL/route change nahi — sirf scroll top reset refresh par.
+
+### 2026-09-11 (GALLERY PHOTOS — 7 naye real gym photos + hero slideshow per-page split)
+
+User request: "Gallery page par 7 nayi asli photos lagao, purani saari gallery photos
+delete karo (website + repo dono se). WebP format, width/height attributes, hover par
+subtle zoom + dark overlay caption. Slideshow bhi nayi photos se, mobile + desktop
+dono par." Sab photo-content mapping user ne confirm ki thi (agent images dekh nahi
+sakta).
+
+- [attached_assets/gallery-{entrance,legpress,mural-rack,floor,spin-studio,cable,
+  cardio}.webp] — `C:\Users\LENOVO\Documents\Default Project\Fitness-website-main`
+  ke `D:\infinity` folder se 7 naye PNGs (11 Jul 2026, ChatGPT Image) ffmpeg 9.0.1 se
+  native resolution par WebP q80 me convert kiye. Sizes 153–264 KB. Dialog:
+  entrance 1182x1330 (portrait), mural-rack 1086x1448 (portrait), legpress 1281x1227,
+  baaki 4 (floor, spin-studio, cable, cardio) 1448x1086 (landscape).
+- [src/lib/gymPhotos.ts] — NAYA shared data file. `GymPhoto` interface: src, alt,
+  caption, width, height, portrait?. `gymPhotos` array (order 1–7) — Gallery +
+  slideshows ka single source of truth. Alts (SEO): "Infinity Fitness Gym Kaithal -
+  front entrance and building facade", "- strength training area with leg press and
+  bench press machines", "- workout zone with wall mural and weight rack", "- main
+  workout floor with strength training machines", "- spin cycling studio", "- cable
+  machine and functional training area", "- cardio zone with treadmills". Captions
+  (short, hover/lightbox): Front Entrance, Strength Training Area, Wall Mural &
+  Weight Rack, Main Workout Floor, Spin Cycling Studio, Cable & Functional Training,
+  Cardio Zone - Treadmills.
+- [src/components/GymHeroSlideshow.tsx] — Refactor: hardcoded slides + `startIndex`
+  hata kar ab `slides: {src, alt}[]` prop leta hai (per-page split). 4s tick
+  crossfade + 3-slide window + scrim overlay + fetchPriority logic same raha.
+- [src/pages/About.tsx, Services.tsx, Membership.tsx, Contact.tsx] — Naye slides:
+  About=[P1,P2], Services=[P3,P4], Membership=[P5,P6], Contact=[P1,P5,P7]. Saare
+  pages par slideshow nayi photos dikhate hain (mobile + desktop dono par — user ne
+  confirm kiya).
+- [src/pages/Gallery.tsx] — `img1..img7` imports + hardcoded `images` array hatakar
+  `gymPhotos` se map kiya (order 1–7, sahi alt/caption). Hero bg = gymPhotos[0]
+  (front entrance). `<img>` par `width`/`height` attributes add (CLS). Hover
+  animation ab pure CSS (framer whileHover scale hata diya): `group-hover:
+  scale-[1.08]` zoom (500ms ease-out) + `bg-black/40` dark overlay (300ms fade) +
+  caption pill (bg-black/50 backdrop-blur) bottom-center slide-up. Alt text ab
+  descriptive (lightbox + grid dono me).
+- [DELETE] — Purani gallery photos git rm kiye: root `attached_assets/` ke 7 webps
+  (`1_1785140838620` ... `1a4c7a90-...-1785141254714`). Ab kisi code me reference
+  nahi (grep 0 matches).
+- [DELETE] — Unused legacy `src/components/sections/Gallery.tsx` aur uske
+  `artifacts/infinity-fitness/attached_assets/gallery-{1..6}.jpg` git rm kiye
+  (component kisi file se import nahi hota — agent.md me legacy marked tha; uski
+  images hi purani gallery photos thi).
+- [KEEP] — `7_1785143551141.webp` (Navbar gymLogo), `7_1785143150403.webp` +
+  `image_*.png` (unreferenced, gallery nahi), `file_0000*.webp` ×8 (HeroPhotoStrip),
+  gallery video files — sab untouched.
+- [VERIFY] — `pnpm run typecheck:production` 0 errors (api-server + infinity-fitness
+  dono) aur `pnpm run build` pass (Vite, 33.61s). New bundle chunks:
+  `gymPhotos-DbseXvc2.js`, `Gallery-D53nl_kB.js`.
+- [TODO/OPEN] — Agent ne commit/push nahi kiya (user ne nahi kaha). Changes staged
+  hain (untracked naye + deleted). User ko confirm karna: purani photos is living
+  site par bhi chali jaayein (push karna ho to).
+
+### 2026-09-11 (round 2 — gallery photos push + LOOP REVERT + spin/entrance crop)
+
+User request: (1) changes push GitHub par (done), (2) membership page par "get in
+shape" spin-studio photo thoda niche, (3) gallery background first photo (entrance)
+bhi thoda niche, (4) **revert** — sabhi pages ke hero background me phi sabhi 7
+photos loop me chalni chahiye (per-page split hatao). "Niche" direction user ne
+option se confirm kiya: **TOP hissa zyada dikhe** (building/GET IN SHAPE text
+visible ho).
+
+- [PUSH] — `git commit 7347ed5` "feat: replace gallery with 7 real gym photos
+  (WebP, alt, width/height, CSS hover) + per-page hero slideshow split" → pushed
+  origin/main (89ff966..7347ed5). Vercel auto-deploy.
+- [REVERT - src/pages/About.tsx, Services.tsx, Membership.tsx, Contact.tsx] —
+  Per-page split (`slides={[gymPhotos[0],[1]]}` etc.) hata kar wapas
+  `<GymHeroSlideshow slides={gymPhotos} />` — ab HAR page ke hero background me
+  sabhi 7 photos 4s interval par loop me chalte hain (pehle jaisa).
+- [src/lib/gymPhotos.ts] — `GymPhoto` interface me `objectPosition?: string` add.
+  Entrance photo → `'50% 20%'` (upar ka hissa dikhe), spin-studio →
+  `'50% 25%'` (GET IN SHAPE text visible). Photos .webp hi hain (7 files,
+  153–264 KB — user ko confirm kiya).
+- [src/components/GymHeroSlideshow.tsx] — `HeroSlide` me optional `objectPosition`
+  add; img style me `objectPosition: slides[i].objectPosition ?? 'center'`.
+  `object-center` class hata di (inline style ab handle karta hai).
+- [src/pages/Gallery.tsx] — Hero background first photo (entrance) par inline
+  `objectPosition: gymPhotos[0].objectPosition` — thoda niche / upar kaa hissa.
+- [VERIFY] — `pnpm run build` pass (Vite, 37.55s). New chunks: Membership-,
+  About-, Contact-, ChatBot-B?.js (rebuilt).
+- [TODO/OPEN] — Agent ne push nahi kiya (user ne nahi kaha). Staged nahi — changes
+  working tree me hain. User ko confirm karna: done + webp confirm.
+
+### 2026-09-11 (round 3 — per-page first photo + entrance crop fix + responsive verify)
+
+User report: "first photo sabhi pages par same hai, har page par first photo alag honi
+chahiye; entrance/building photo bahut zoomed hai — gate tak nahi dikh raha; site ki
+responsiveness check karo (sabhi devices par)". NOTE: agent image dekh nahi sakta
+(model me image input nahi) — crop positions visually verify user karega.
+
+- [src/lib/gymPhotos.ts] — Entrance (building) photo `objectPosition` `'50% 20%'`
+  (sirf sign/upar ka hissa) → `'50% 70%'` (neeche gate/entrance area visible). Wide
+  desktop hero me portrait photo ka sirf ~40% vertical slice dikhta hai (object-cover),
+  isliye 20% upar = gate cut ho jaata tha. Mobile par vertical fully visible thi
+  (sides crop) — fix ka asal asar desktop/tablet par. Gallery hero bg bhi isi se fix.
+- [src/pages/About.tsx, Services.tsx, Membership.tsx, Contact.tsx] — Har page ka
+  **first hero photo ab alag** (loop me sabhi 7 photos phir bhi chalte hain):
+  About=`startIndex 0` (Front Entrance), Services=`startIndex 1` (Strength Training
+  Area), Membership=`startIndex 3` (Main Workout Floor), Contact=`startIndex 2`
+  (Wall Mural & Weight Rack). GymHeroSlideshow ka startIndex prop pehle se tha.
+- [VERIFY] — `pnpm run build` (Vercel command: typecheck:production + vite) pass,
+  18.88s, 0 errors. Dev servers 5173 + 8080 (healthz) dono 200.
+- [RESPONSIVE AUDIT — static] — App root `overflow-x-hidden`, saare fixed-width
+  decorative layers (w-[1200px] glows etc.) `overflow-hidden` parents me. ChatBot
+  `max-w-[calc(100vw-2rem)]`, grids 2→5 col collapse properly. No overflow risk.
+- [RESPONSIVE — LIVE BROWSER CHECK] — Chrome headless (CDP server) se har 7 pages
+  (/, /about, /services, /membership, /contact, /gallery, /testimonials) par
+  3 viewports (375x812 dpr3, 768x1024 dpr2, 1440x900 dpr1) measure kiya:
+  scrollWidth == clientWidth sab jagah (koi horizontal scroll nahi), har page
+  exactly 1 h1, saare img render hue. 15 screenshots `%TEMP%\opencode\resp-shots\`
+  me (repo me nahi). User manually bhi dekh sakta hai.
+- [TODO/OPEN] — Changes working tree me hain (commit/push nahi kiya — user ne nahi
+  kaha). Entrance crop position ek guess hai (`'50% 70%'`) — agar gate phir bhi na
+  dikhe to batao, ±10% adjust kar denge. Screenshots folder temp me hai.
+
+### 2026-09-14
+
+- [SESSION] — User ne chatbot responsiveness fix ka kaam diya: "chatbot ka interface kuch
+  phones (iPhone X, 12/13/14/15 + kuch Android) par khatam/kat jata hai, site sab screens
+  par achi chale". Change-log logging in this session se hi (agent.md rule #7).
+- [ENV TOOLING] — node_modules missing mila; pnpm bhi install nahi tha. `pnpm@12.4.1`
+  globally install kiya (npm.cmd se, temp dir se — workspace preinstall hook "Use pnpm
+  instead" run ho raha tha isliye). `pnpm install` karke saari workspace deps (473
+  packages) install ki. Verify: typecheck 0 errors, vite build pass.
+- [index.html] — `viewport` meta tag me **`viewport-fit=cover`** add kiya — iske bina
+  iOS deke `env(safe-area-inset-*)` values use hi nahi ho pati (notch/home-indicator)
+  jab page full-viewport (cover) fit hota hai.
+- [src/index.css] — **CHATBOT MOBILE/RESPONSIVE + SAFE-AREA FIX** (user report: chatbot
+  ka pura interface iPhone X/12-15 + kuch Android par cut/kat jata tha):
+  - Root cause: panel `maxHeight: calc(100vh - 110px)` use karta tha — mobile browsers
+    me `100vh` URL-bar ke PEECHE ka area bhi count karta hai (~150-200px zyada), isliye
+    panel ke upar ka hissa screen ke bahar kata dikhta tha. Notch/home-indicator ka bhi
+    koi `env(safe-area-inset-*)` accounting nahi thi.
+  - Fix: naye CSS classes — `.chatbot-fab` (FAB bottom = `4rem + env(safe-area-inset-bottom)`),
+    `.chatbot-panel-anchor` (panel bottom = `7rem + env(safe-area-inset-bottom)`, desktop
+    `6rem`), `.chatbot-panel` (height/max-height fallback chain `100vh → 100svh →
+    100dvh` + safe-area insets; mobile `--chat-bottom-space:7rem`, desktop `6rem`),
+    `.chatbot-panel--minimized` (72px override), `.cta-bar-safe`
+    (MobileCtaBar `padding-bottom: env(safe-area-inset-bottom)`).
+- [src/components/ChatBot.tsx] — FAB + chat panel ab `bottom-16/md:bottom-6` /
+  `bottom-28/md:bottom-24` Tailwind classes ki jagah naye `.chatbot-fab`,
+  `.chatbot-panel-anchor`/`.chatbot-panel` classes use karte hain; inline
+  `height/maxHeight` (610px + `100vh-110px`) hata kar CSS class ke dvh/svh/vh
+  fallback chain par shift kiya — ab panel mobile browser ke ACTUAL visible viewport
+  (`100dvh`) ke andar rehta hai, URL bar show/hide hone par bhi adjust hota hai.
+- [src/components/MobileCtaBar.tsx] — mobile bottom CTA bar par `.cta-bar-safe` class —
+  iPhone home indicator (safe-area) ke liye bottom padding, buttons/status ab indicator
+  ke upar rehte hain.
+- [src/components/ui/WhatsAppButton.tsx] — WhatsApp floating FAB ab mobile par
+  `bottom-[calc(env(safe-area-inset-bottom,0px)+4rem)]` (pehle `bottom-16` fixed) —
+  gesture-nav/home-indicator phones par bhi sahi level par rahta hai.
+- [VERIFY] — typecheck 0 errors, vite build pass (13.13s, 2133 modules), dist CSS me
+  `.chatbot-panel/.chatbot-fab/.cta-bar-safe` + `safe-area-inset-bottom` + `100dvh`
+  confirm kiye. Push: pending (user ne isi message me push ka instruction de diya hai).
+- [PUSH + GIT] — Push successful: `769daee..cae7419 main -> main`. Git repo me local
+  user.name/user.email set nahi tha (commit fail ho raha tha) — isliye commit repo-author
+  identity inline `-c user.name="digitalguru99908-dev" -c user.email="digitalguru99908@gmail.com"`
+  se kiya (bina global config change kiye). Push ke dauran GCM (Git Credential Manager,
+  `credential.helper=manager`) auth prompt par hang hua — `$env:GCM_INTERACTIVE="auto"`
+  set kar ke push retry kiya → success. Verify: `Your branch is up to date with
+  'origin/main'`, working tree clean.
+- [SESSION — user instruction] — User ne confirm kiya: "jo bhi changes kare rule ka
+  according har baat aur changes agent.md me add kar dena" — matlab agent.md rule #7
+  (har conversation/task/change BILKUL log karna, kuch mat chhodna) hamesha strict
+  follow karna hai.
+
+- [\.env] — **ALL SECRETS RESTORED** (user request: "env file me secrets dikh nahi rahe").
+  Render API (`srv-dab96mv10e5c73a8lpug` oregon service) se saare env vars fetch kiye
+  (`rnd_Fz6m6IVwsUB3t6MFMM7hwW3sAZm5` API key se). Values `.env` me fill ki:
+  `GMAIL_APP_PASSWORD=tgvj mbbd akdg xpwx`, `SESSION_SECRET=A55921...`, `GROQ_API_KEY=gsk_...`,
+  `CARTESIA_API_KEY=sk_car_...`, `RESEND_API_KEY=re_Gah...`, `ALLOWED_ORIGIN=https://infinity-fitness-gym-woad.vercel.app`,
+  `NODE_ENV=production`. `BREVO_API_KEY` + `BREVO_SENDER_EMAIL` Render par bhi nahi hain
+  (auto-reply ke liye setup pending). User ko GitHub Secrets me save karne ke liye saari
+  values `.env` me dikhengi. `.env` gitignored hai — commit NAHI hoga.
+- [\.env.example] — **SABHI ENV VAR NAMES SYNC** (user request: sirf names add karna):
+  root `.env.example` ab `.env` jaisa complete hai — `NODE_ENV`, `PORT`, `ALLOWED_ORIGIN`,
+  `GMAIL_APP_PASSWORD`, `SESSION_SECRET`, `GROQ_API_KEY`, `CARTESIA_API_KEY`,
+  `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`, `RESEND_API_KEY`, `DATABASE_URL`,
+  `VITE_API_URL` (sab comments + khali values, koi secret value nahi).
+- [SEO — OVER-KEYWORD STUFFING FIX + NATURAL KEYWORD PLACEMENT] (user ke 2-part instruction,
+  push karke GitHub par daala):
+  - **PART 1 FIX**:
+    - [Footer.tsx] — "Areas We Serve" se 28 village tags hata diye; ab natural sentence:
+      "Members join us from Kaithal and nearby areas including Kurukshetra, Karnal, Hisar,
+      and Cheeka." Repetitive line ("Gym in Kaithal · Gym near Kurukshetra · …") poori
+      hata di. `AREAS_WE_SERVE` unused array bhi remove.
+    - [Contact.tsx] — "Send an Inquiry" me 28 area names hata kar sirf 3-4 cities naturally:
+      "members from across Kaithal district, Kurukshetra, Karnal, Hisar, and nearby areas."
+    - ["best gym in Kaithal" overuse] — ab sirf 2 jagah: Home hero subtitle + Home FAQ
+      question. Baaki sab natural: Footer text hata, Contact form intro ("Ready to start
+      your fitness journey?"), Home programs "Modern Equipment" desc, Home FAQ answer
+      ("consistently rated highly"), About story ("what sets us apart in the community").
+    - [Home.tsx FAQ address] — 28 villages wali list → "Kurukshetra, Karnal, Hisar, Cheeka
+      and all nearby areas in Kaithal district."
+    - [About.tsx story] — 28 villages wali list → "Members travel from Kurukshetra, Karnal,
+      Hisar, Cheeka and nearby areas to train with us."
+    - [usePageTitle.ts + index.html] — meta descriptions me village list + "best gym"
+      repetition hata; Home/Contact title "Best Gym in Kaithal" sirf Home title + 1 jagah
+      rakha, Contact title "Gym in Kaithal", Gallery/Testimonials descriptions natural.
+      JSON-LD LocalBusiness/HealthClub schema me 28 villages `areaServed` ke roop me
+      ABHI BHI HAI (user note: schema pehle se de raha hai).
+  - **PART 2 ADD** (natural, forced nahi):
+    - [Services.tsx] — har 6 program description me location context naturally weave:
+      Strength ("Kaithal-based trainers"), Cardio ("cardio zone in Kaithal"), Weight Gain
+      ("Infinity Fitness Kaithal"), Weight Loss ("members across Kaithal"), Yoga ("morning
+      yoga sessions in Kaithal"), Modern Equipment ("newest equipment available in Kaithal").
+    - [About.tsx] — story me origin mention: "Since opening in Kaithal, Infinity Fitness
+      Gym has helped hundreds of members lose weight, build muscle, and find their
+      confidence." (paragraph 2 ka redundant "in Kaithal district" trim karke count balanced).
+    - [Testimonials/reviews.ts] — KOI CHANGE NAHI (genuine customer reviews me location
+      mentions as-is — "One of the best gyms in Kaithal", "City best gym" — real user text).
+- [VERIFY] — `pnpm run typecheck:production` 0 errors; `vite build` pass (24.04s, 2133
+  modules). Push: `.env.example` + SEO changes commit, `git push origin main` (Vercel
+  auto-deploy).

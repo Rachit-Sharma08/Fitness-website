@@ -2,12 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Best Gym in Kaithal | Infinity Fitness Gym | Fitness & Training</title>
-    <meta name="description" content="Best gym in Kaithal — Strength Training, Cardio, Weight Loss, Weight Gain, Yoga &amp; Personal Training. Try a 7-day free trial, open till 11 PM daily." />
+    <meta name="description" content="Infinity Fitness Gym — Strength Training, Cardio, Weight Loss, Weight Gain, Yoga &amp; Personal Training in Rishi Nagar. Open till 11 PM daily. Serving Kaithal, Kurukshetra, Karnal, Hisar &amp; nearby areas." />
     <meta name="robots" content="index, follow" />
     <meta property="og:title" content="Best Gym in Kaithal | Infinity Fitness Gym | Fitness & Training" />
-    <meta property="og:description" content="Best gym in Kaithal — Strength Training, Cardio, Weight Loss, Weight Gain, Yoga &amp; Personal Training. Try a 7-day free trial, open till 11 PM daily." />
+    <meta property="og:description" content="Infinity Fitness Gym — Strength Training, Cardio, Weight Loss, Weight Gain, Yoga &amp; Personal Training in Rishi Nagar. Open till 11 PM daily. Serving Kaithal, Kurukshetra, Karnal, Hisar &amp; nearby areas." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Infinity Fitness Gym Kaithal" />
     <meta property="og:image" content="https://raw.githubusercontent.com/digitalguru99908-dev/Fitness-website/main/artifacts/infinity-fitness/public/og-image.jpg" />
@@ -15,11 +15,15 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Best Gym in Kaithal | Infinity Fitness Gym | Fitness & Training" />
-    <meta name="twitter:description" content="Best gym in Kaithal — Strength Training, Cardio, Weight Loss, Weight Gain, Yoga &amp; Personal Training. Try a 7-day free trial, open till 11 PM daily." />
+    <meta name="twitter:description" content="Infinity Fitness Gym — Strength Training, Cardio, Weight Loss, Weight Gain, Yoga &amp; Personal Training in Rishi Nagar. Open till 11 PM daily. Serving Kaithal, Kurukshetra, Karnal, Hisar &amp; nearby areas." />
     <meta name="twitter:image" content="https://raw.githubusercontent.com/digitalguru99908-dev/Fitness-website/main/artifacts/infinity-fitness/public/og-image.jpg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="canonical" href="https://infinity-fitness-gym-woad.vercel.app/" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://infinity-fitness-api-oregon-test.onrender.com" crossorigin>
+    <link rel="preload" as="image" href="/hero-poster.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="/infinity.mp4" type="video/mp4">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
     <script type="application/ld+json">
       {
@@ -29,8 +33,28 @@
         "alternateName": "Infinity Fitness Gym Kaithal",
         "description": "Kaithal's community gym — Strength Training, Cardio, Weight Loss, Weight Gain, Yoga & Personal Training. Open all 7 days till 11 PM.",
         "image": "https://raw.githubusercontent.com/digitalguru99908-dev/Fitness-website/main/artifacts/infinity-fitness/public/og-image.jpg",
+        "url": "https://infinity-fitness-gym-woad.vercel.app",
         "telephone": "+918168828832",
-        "priceRange": "₹₹",
+        "email": "digitalguru99908@gmail.com",
+        "priceRange": "₹2,000 - ₹11,000",
+        "paymentAccepted": "Cash, UPI, Bank Transfer",
+        "currenciesAccepted": "INR",
+        "areaServed": [
+          {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+              "@type": "GeoCoordinates",
+              "latitude": "29.8029",
+              "longitude": "76.3154"
+            },
+            "geoRadius": "60 km",
+            "description": "Kaithal district, Kurukshetra, Karnal, Hisar, Cheeka and nearby villages including Titram, Keorak, Geong, Chandana, Shergarh, Deod Kheri, Khurana, Sanghan, Patti Afghan, Siwan, Khanpur, Polar, Sotha, Kawartan, Harnola, Kheri, Gulam Kheri, Rasulpur, Farshmajra, Kangthali, Firojpur, Dohar, Ateli, Balu"
+          },
+          { "@type": "City", "name": "Kurukshetra", "sameAs": "https://en.wikipedia.org/wiki/Kurukshetra" },
+          { "@type": "City", "name": "Karnal", "sameAs": "https://en.wikipedia.org/wiki/Karnal" },
+          { "@type": "City", "name": "Hisar", "sameAs": "https://en.wikipedia.org/wiki/Hisar_(city)" },
+          { "@type": "City", "name": "Cheeka", "sameAs": "https://en.wikipedia.org/wiki/Cheeka" }
+        ],
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Kaithal - Dhand Rd, Opp. Maharaja Palace, Rishi Nagar",
@@ -39,6 +63,11 @@
           "postalCode": "136027",
           "addressCountry": "IN"
         },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "29.8029",
+          "longitude": "76.3154"
+        },
         "openingHoursSpecification": [
           {
             "@type": "OpeningHoursSpecification",
@@ -46,6 +75,45 @@
             "opens": "05:00",
             "closes": "23:00"
           }
+        ],
+        "availableService": [
+          {
+            "@type": "Service",
+            "name": "Strength Training",
+            "description": "Free weights, machines & powerlifting section for heavy lifting and muscle building."
+          },
+          {
+            "@type": "Service",
+            "name": "Cardio Training",
+            "description": "Treadmills, cycles & functional zone for endurance and stamina building."
+          },
+          {
+            "@type": "Service",
+            "name": "Weight Loss Programs",
+            "description": "Fat-loss plans with HIIT, diet guidance and regular progress tracking."
+          },
+          {
+            "@type": "Service",
+            "name": "Weight Gain Programs",
+            "description": "Lean muscle gain programs with guided nutrition & trainer support."
+          },
+          {
+            "@type": "Service",
+            "name": "Yoga Sessions",
+            "description": "Morning yoga sessions for flexibility, posture and a peaceful mind."
+          },
+          {
+            "@type": "Service",
+            "name": "Personal Training",
+            "description": "One-on-one personal training with experienced coaches and nutrition guidance."
+          }
+        ],
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "Modern Equipment", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Air Conditioned", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Parking Available", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Free Trial", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Personal Trainer", "value": true }
         ],
         "aggregateRating": {
           "@type": "AggregateRating",

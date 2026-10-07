@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Menu, X, Phone, CalendarCheck } from 'lucide-react';
-import { FaWhatsapp } from 'react-icons/fa';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { motion, AnimatePresence } from 'framer-motion';
 import gymLogo from '@assets/7_1785143551141.webp';
 import { useFreeTrialModal } from '@/components/free-trial/FreeTrialProvider';
@@ -40,6 +40,7 @@ export function Navbar() {
   return (
     <>
       <motion.nav
+        aria-label="Primary navigation"
         className={`fixed top-0 left-0 right-0 z-50 bg-background/95 border-b border-border transition-all duration-300 ${
           scrolled ? 'h-16 shadow-[0_4px_30px_rgba(0,0,0,0.45)]' : 'h-20'
         }`}
@@ -116,7 +117,7 @@ export function Navbar() {
             transition={{ type: 'tween', duration: 0.3 }}
             className="fixed inset-0 z-40 bg-background/95 md:hidden pt-20 flex flex-col"
           >
-            <div className="flex-1 overflow-y-auto px-6 py-8 flex flex-col gap-6">
+            <nav aria-label="Mobile navigation" className="flex-1 overflow-y-auto px-6 py-8 flex flex-col gap-6">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.name}
@@ -165,11 +166,11 @@ export function Navbar() {
                   rel="noreferrer"
                   className="flex items-center justify-center gap-2 bg-[#25D366]/10 border border-[#25D366]/40 text-[#25D366] py-4 w-full font-display font-bold text-xl uppercase tracking-wider hover:bg-[#25D366]/20 transition-colors"
                 >
-                  <FaWhatsapp className="w-5 h-5" />
+                  <WhatsAppIcon className="w-5 h-5" />
                   WhatsApp Us
                 </a>
               </motion.div>
-            </div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>

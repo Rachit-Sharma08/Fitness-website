@@ -13,14 +13,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 
 // ── 8 gym photos split into two groups of 4 ─────────────────────────────────
-import p1 from '@assets/file_0000000046608208ba36dee87d0a73b8_1785615546023.jpg';
-import p2 from '@assets/file_00000000c7608208930d451b5a477dab_1785615546040.jpg';
-import p3 from '@assets/file_000000000a708208b3e914e3eef173f1_1785615546050.jpg';
-import p4 from '@assets/file_0000000074388208a8815a71a7fbb8fe_1785615546061.jpg';
-import p5 from '@assets/file_0000000058708208bf9028fd3f84fc37_1785615546072.jpg';
-import p6 from '@assets/file_00000000ebb08208a4ae08625f30b3c0_1785615546080.jpg';
-import p7 from '@assets/file_00000000968c820883eca274f123764c_1785615546087.jpg';
-import p8 from '@assets/file_00000000c0148208839e71034406f00a_1785615133984.jpg';
+import p1 from '@assets/file_0000000046608208ba36dee87d0a73b8_1785615546023.webp';
+import p2 from '@assets/file_00000000c7608208930d451b5a477dab_1785615546040.webp';
+import p3 from '@assets/file_000000000a708208b3e914e3eef173f1_1785615546050.webp';
+import p4 from '@assets/file_0000000074388208a8815a71a7fbb8fe_1785615546061.webp';
+import p5 from '@assets/file_0000000058708208bf9028fd3f84fc37_1785615546072.webp';
+import p6 from '@assets/file_00000000ebb08208a4ae08625f30b3c0_1785615546080.webp';
+import p7 from '@assets/file_00000000968c820883eca274f123764c_1785615546087.webp';
+import p8 from '@assets/file_00000000c0148208839e71034406f00a_1785615133984.webp';
 
 const GROUPS = [
   [p1, p2, p3, p4],
@@ -168,7 +168,7 @@ export function HeroPhotoStrip() {
               >
                 <img
                   src={src}
-                  alt={`Infinity Fitness gym photo ${i + 1}`}
+                  alt={`Infinity Fitness Gym Kaithal member workout photo ${i + 1}`}
                   className="w-full h-full object-cover"
                   loading="eager"
                   draggable={false}

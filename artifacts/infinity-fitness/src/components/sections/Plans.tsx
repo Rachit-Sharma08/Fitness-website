@@ -71,7 +71,7 @@ export const Plans = () => {
                   }`}
               >
                 {plan.badge && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white font-display font-bold uppercase tracking-wider text-xs py-1 px-4 rounded-sm">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black font-display font-bold uppercase tracking-wider text-xs py-1 px-4 rounded-sm">
                     {plan.badge}
                   </div>
                 )}

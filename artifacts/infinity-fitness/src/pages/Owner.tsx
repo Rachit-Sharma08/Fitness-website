@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'wouter';
 import { motion, type Variants } from 'framer-motion';
-import { Phone, Instagram, Award, Users, Dumbbell, Heart } from 'lucide-react';
-import { FaWhatsapp } from 'react-icons/fa';
+import { Phone, Instagram, Award, Users, Dumbbell, Heart, ArrowRight } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { usePageTitle } from '@/lib/usePageTitle';
 
 const fadeUp: Variants = {
@@ -45,7 +46,7 @@ export function Owner() {
     <div className="flex flex-col pt-20">
 
       {/* Hero Section */}
-      <section className="relative min-h-[60svh] flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
+      <header className="relative min-h-[60svh] flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-black via-[#0a0a0a] to-[#1a0800]" />
         <div className="absolute inset-0 opacity-10"
@@ -78,7 +79,7 @@ export function Owner() {
             Passion, discipline, and a mission to transform Kaithal — one member at a time.
           </motion.p>
         </div>
-      </section>
+      </header>
 
       {/* Owner Profile Section */}
       <section className="py-20 px-4 bg-[#050505]">
@@ -148,7 +149,7 @@ export function Owner() {
                 rel="noreferrer"
                 className="flex items-center gap-2 border border-[#25D366] text-[#25D366] font-display font-bold uppercase tracking-wider px-6 py-3 hover:bg-[#25D366]/10 transition-colors"
               >
-                <FaWhatsapp size={18} />
+                <WhatsAppIcon className="w-[18px] h-[18px]" />
                 WhatsApp
               </a>
               <a
@@ -211,6 +212,23 @@ export function Owner() {
         </div>
       </section>
 
+      {/* Internal CTA */}
+      <section className="py-16 px-4 bg-[#050505]">
+        <div className="max-w-6xl mx-auto text-center">
+          <motion.div
+            variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-6"
+          >
+            <Link href="/about" className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider hover:text-white transition-colors group">
+              Learn More About Us <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+            </Link>
+            <Link href="/contact" className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider hover:text-white transition-colors group">
+              Get In Touch <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20 px-4 bg-gradient-to-r from-[#0a0a0a] via-[#1a0800] to-[#0a0a0a] border-t border-white/5">
         <motion.div
@@ -238,7 +256,7 @@ export function Owner() {
               rel="noreferrer"
               className="flex items-center justify-center gap-2 border-2 border-primary/40 text-white font-display font-bold uppercase tracking-wider px-8 py-4 hover:border-primary hover:text-primary transition-colors text-lg"
             >
-              <FaWhatsapp size={20} />
+              <WhatsAppIcon className="w-5 h-5" />
               WhatsApp Us
             </a>
           </div>

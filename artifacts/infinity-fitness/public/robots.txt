@@ -1,2 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+
+Sitemap: https://infinity-fitness-gym-woad.vercel.app/sitemap.xml

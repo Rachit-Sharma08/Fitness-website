@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useForceReducedMotion } from '@/lib/motion';
 import { ArrowRight, ChevronDown, ClipboardCheck, Dumbbell, Zap } from 'lucide-react';
 import { GymHeroSlideshow } from '@/components/GymHeroSlideshow';
+import { gymPhotos } from '@/lib/gymPhotos';
 import { staggerContainer, fadeUpItem } from '@/lib/animation';
 import { FREE_TRIAL_DAYS } from '@/lib/siteConfig';
 import { usePageTitle } from '@/lib/usePageTitle';
@@ -64,8 +65,8 @@ export function Membership() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[80svh] min-h-[520px] flex items-center justify-center pt-20 overflow-hidden">
-        <GymHeroSlideshow startIndex={4} />
+      <header className="relative h-[80svh] min-h-[520px] flex items-center justify-center pt-20 overflow-hidden">
+        <GymHeroSlideshow slides={gymPhotos} startIndex={3} />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -77,11 +78,11 @@ export function Membership() {
               Membership <span className="text-primary text-glow">Plans</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground font-medium uppercase tracking-widest">
-              Invest in yourself. Start today.
+              Affordable Gym Membership in Kaithal — Start Today
             </p>
           </motion.div>
         </div>
-      </section>
+      </header>
 
       {/* Pricing Section — stagger the 3 cards */}
       <section className="py-24 relative">
@@ -91,10 +92,10 @@ export function Membership() {
           <div className="text-center mb-16">
             <p className="text-primary font-semibold uppercase tracking-[0.3em] text-sm mb-4">Flexible Plans</p>
             <h2 className="text-3xl md:text-5xl font-display font-bold uppercase tracking-wider mb-4">
-              Gym Membership Plans & <span className="text-primary">Pricing</span>
+              Gym Membership Plans & <span className="text-primary">Pricing in Kaithal</span>
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-              No joining fee, no hidden charges — pay only for what you use.
+              No joining fee, no hidden charges — transparent gym pricing in Kaithal. Pay only for what you use.
             </p>
           </div>
 
@@ -146,7 +147,7 @@ export function Membership() {
               whileTap={cardTap}
               className="bg-card border-2 border-primary p-10 flex flex-col h-[105%] relative shadow-[0_0_50px_rgba(139,92,246,0.25)] rounded-sm z-10"
             >
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white text-sm font-bold uppercase tracking-widest py-1.5 px-6 whitespace-nowrap shadow-lg">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-black text-sm font-bold uppercase tracking-widest py-1.5 px-6 whitespace-nowrap shadow-lg">
                 Best Value · Most Popular
               </div>
               <h3 className="font-display text-3xl font-bold uppercase text-white mb-2 mt-2">1-Year Package</h3>
@@ -270,7 +271,7 @@ export function Membership() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-display font-bold uppercase tracking-wider mb-4">
-              Frequently Asked <span className="text-primary">Questions</span>
+              Gym Membership <span className="text-primary">FAQ — Kaithal</span>
             </h2>
           </div>
 

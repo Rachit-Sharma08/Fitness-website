@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'wouter';
 import { motion, useInView } from 'framer-motion';
 import { useForceReducedMotion } from '@/lib/motion';
 import { useVideoPauseOnHidden } from '@/lib/useVideoPauseOnHidden';
-import { Star, MessageSquare, Volume2, VolumeX, Quote } from 'lucide-react';
+import { Star, MessageSquare, Volume2, VolumeX, Quote, ArrowRight } from 'lucide-react';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import {
   allReviews,
@@ -138,7 +139,7 @@ export function Testimonials() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Hero Section — client review reel card + ambient blurred backdrop */}
-      <section className="relative pt-32 pb-16 flex items-center justify-center overflow-hidden bg-[#050505]">
+      <header className="relative pt-32 pb-16 flex items-center justify-center overflow-hidden bg-[#050505]">
         {/* Ambient backdrop — full-screen blur-3xl video + blur-xl glow ne GPU
             ko har frame par bhaari recomposite karta tha (perf fix). Ab static
             subtle radial glow + gradient — dikhne me same vibe, near-zero cost. */}
@@ -182,6 +183,7 @@ export function Testimonials() {
                   ref={videoRef}
                   src="/client-review.mp4"
                   className="absolute inset-0 w-full h-full object-cover"
+                  aria-label="Infinity Fitness Gym Kaithal client review video"
                   autoPlay
                   loop
                   muted
@@ -202,7 +204,7 @@ export function Testimonials() {
 
           </div>
         </div>
-      </section>
+      </header>
 
       {/* Reviews Content */}
       <section className="pb-24 pt-8">
@@ -360,13 +362,26 @@ export function Testimonials() {
               href="https://www.google.com/maps/search/Infinity+Fitness+Gym,+Rishi+Nagar,+Kaithal"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center bg-primary text-white px-8 py-4 font-display font-bold text-xl uppercase tracking-wider skew-x-[-10deg] box-glow"
+              className="inline-flex items-center justify-center bg-primary text-black px-8 py-4 font-display font-bold text-xl uppercase tracking-wider skew-x-[-10deg] box-glow"
               whileHover={prefersReduced ? {} : { scale: 1.05, transition: { duration: 0.2 } }}
               whileTap={prefersReduced ? {} : { scale: 0.96, transition: { duration: 0.1 } }}
             >
               <span className="skew-x-[10deg]">Share Your Story on Google</span>
             </motion.a>
           </div>
+
+          {/* Internal CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mt-12"
+          >
+            <Link href="/membership" className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider hover:text-white transition-colors group">
+              Join Our Community <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+            </Link>
+          </motion.div>
 
         </div>
       </section>

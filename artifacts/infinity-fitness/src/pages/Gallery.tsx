@@ -1,16 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useForceReducedMotion } from '@/lib/motion';
-import { X, ChevronLeft, ChevronRight, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Play, Pause, Volume2, VolumeX, ArrowRight } from 'lucide-react';
 import { staggerContainer, fadeUpItem } from '@/lib/animation';
-import img1 from '@assets/1_1785140838620.webp';
-import img2 from '@assets/2_1785140851182.webp';
-import img3 from '@assets/3_1785140851181.webp';
-import img4 from '@assets/4_1785140862774.webp';
-import img5 from '@assets/5_1785140862773.webp';
-import img6 from '@assets/6_1785140862772.webp';
-import img7 from '@assets/1a4c7a90-e805-426f-a6ee-c310dc609be2_1785141254714.webp';
+import { gymPhotos } from '@/lib/gymPhotos';
 import { usePageTitle } from '@/lib/usePageTitle';
+import { useForceReducedMotion } from '@/lib/motion';
 
 const videos = [
   { src: '/gallery-video-1.mp4', caption: 'Infinity Fitness Gym Reel' },
@@ -20,15 +15,13 @@ const videos = [
   { src: '/gallery-video-2.mp4', caption: 'Best Gym in Kaithal' },
 ];
 
-const images = [
-  { src: img1, caption: "Main Floor" },
-  { src: img2, caption: "Powerlifting Zone" },
-  { src: img3, caption: "Get In Shape Studio" },
-  { src: img4, caption: "Free Weights Area" },
-  { src: img5, caption: "Cardio Zone" },
-  { src: img6, caption: "Machine Section" },
-  { src: img7, caption: "Reception & Lounge" },
-];
+const images = gymPhotos.map((p) => ({
+  src: p.src,
+  alt: p.alt,
+  caption: p.caption,
+  width: p.width,
+  height: p.height,
+}));
 
 export function Gallery() {
   usePageTitle('/gallery');
@@ -128,9 +121,9 @@ export function Gallery() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[50svh] min-h-[400px] flex items-center justify-center pt-20 overflow-hidden">
+      <header className="relative h-[50svh] min-h-[400px] flex items-center justify-center pt-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={img1} alt="Infinity Fitness Gym" className="w-full h-full object-cover opacity-60" />
+          <img src={images[0].src} alt={images[0].alt} width={images[0].width} height={images[0].height} className="w-full h-full object-cover opacity-60" style={{ objectPosition: gymPhotos[0].objectPosition ?? 'center' }} />
           <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
           <div className="absolute inset-0 bg-black/40" />
         </div>
@@ -144,7 +137,7 @@ export function Gallery() {
             </p>
           </motion.div>
         </div>
-      </section>
+      </header>
 
       {/* Videos first - click to open in lightbox */}
       <section className="py-6 md:py-12">
@@ -170,6 +163,7 @@ export function Gallery() {
                   src={video.src}
                   poster={video.poster}
                   className="w-full h-full object-cover"
+                  aria-label={`${video.caption} — Infinity Fitness Gym Kaithal`}
                   muted
                   loop
                   playsInline
@@ -214,23 +208,40 @@ export function Gallery() {
                 className="group relative overflow-hidden bg-card cursor-pointer rounded-sm"
                 style={{ aspectRatio: '3/4' }}
                 onClick={() => openImageLightbox(i)}
-                whileHover={prefersReduced ? {} : { scale: 1.02, transition: { duration: 0.3 } }}
-                whileTap={prefersReduced ? {} : { scale: 0.95, transition: { duration: 0.12 } }}
               >
                 <img
                   src={img.src}
-                  alt={img.caption}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  alt={img.alt}
+                  width={img.width}
+                  height={img.height}
+                  className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.08] group-active:scale-[1.08]"
                   loading="lazy"
                 />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 group-active:bg-black/40 transition-colors duration-300 pointer-events-none" />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/5 group-hover:ring-primary/40 rounded-sm pointer-events-none transition-all duration-300" />
-                <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                  <p className="text-white/90 text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] text-center">
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-center p-3 sm:p-4 bg-gradient-to-t from-black/0 via-transparent to-transparent pb-[20%] opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+                  <p className="text-white text-[11px] sm:text-xs font-display font-bold uppercase tracking-[0.2em] text-center px-2 py-1 bg-black/50 backdrop-blur-sm rounded-sm">
                     {img.caption}
                   </p>
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Internal CTA */}
+      <section className="py-16">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Link href="/contact" className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider hover:text-white transition-colors group">
+              Contact Us for Details <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -259,6 +270,7 @@ export function Gallery() {
                 src={videos[videoLightbox].src}
                 poster={videos[videoLightbox].poster}
                 className="max-h-[85vh] max-w-[90vw] rounded-sm shadow-2xl"
+                aria-label={`${videos[videoLightbox].caption} — Infinity Fitness Gym Kaithal video`}
                 playsInline
                 muted={lbMuted}
                 onClick={toggleLbPlay}
@@ -345,7 +357,7 @@ export function Gallery() {
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
               src={images[imageLightbox].src}
-              alt={images[imageLightbox].caption}
+              alt={images[imageLightbox].alt}
               className="max-h-[85vh] max-w-[90vw] object-contain rounded-sm shadow-2xl"
               onClick={e => e.stopPropagation()}
             />

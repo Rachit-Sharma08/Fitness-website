@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'wouter';
 import { MapPin, Phone, Clock, Instagram } from 'lucide-react';
-import { FaWhatsapp } from 'react-icons/fa';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 
 export function Footer() {
   return (
@@ -23,18 +23,18 @@ export function Footer() {
               Real equipment, real results, real people. Built for the community of Kaithal to grind it out and transform their lives.
             </p>
             <div className="flex gap-4">
-              <a href="https://wa.me/918168828832" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#25D366] hover:text-white transition-colors">
-                <FaWhatsapp size={20} />
+              <a href="https://wa.me/918168828832" target="_blank" rel="noreferrer" aria-label="Chat with Infinity Fitness Gym on WhatsApp" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#25D366] hover:text-white transition-colors">
+                <WhatsAppIcon className="w-5 h-5" />
               </a>
-              <a href="https://instagram.com/infinityfitnessgyms" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all">
+              <a href="https://instagram.com/infinityfitnessgyms" target="_blank" rel="noreferrer" aria-label="Follow Infinity Fitness Gym on Instagram" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-500 hover:text-white transition-all">
                 <Instagram size={20} />
               </a>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h4 className="font-display font-bold text-xl uppercase tracking-wider mb-6 text-white">Quick Links</h4>
+          <nav aria-label="Footer navigation">
+            <h3 className="font-display font-bold text-xl uppercase tracking-wider mb-6 text-white">Quick Links</h3>
             <ul className="space-y-3">
               {[
                 { name: 'Home', href: '/' },
@@ -53,11 +53,11 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-display font-bold text-xl uppercase tracking-wider mb-6 text-white">Contact Us</h4>
+            <h3 className="font-display font-bold text-xl uppercase tracking-wider mb-6 text-white">Contact Us</h3>
             <ul className="space-y-4">
               <li className="flex gap-3">
                 <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -72,7 +72,7 @@ export function Footer() {
 
           {/* Opening Hours */}
           <div>
-            <h4 className="font-display font-bold text-xl uppercase tracking-wider mb-6 text-white">Opening Hours</h4>
+            <h3 className="font-display font-bold text-xl uppercase tracking-wider mb-6 text-white">Opening Hours</h3>
             <ul className="space-y-3">
               <li className="flex justify-between border-b border-white/5 pb-2">
                 <span className="text-muted-foreground">Monday - Saturday</span>
@@ -89,6 +89,19 @@ export function Footer() {
                 <span className="text-primary font-medium">6:00 PM - 9:00 PM</span>
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Areas We Serve — SEO: key nearby areas crawlable in natural text */}
+        <div className="border-t border-white/5 pt-10 pb-8">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <MapPin className="w-5 h-5 text-primary" />
+              <h3 className="font-display font-bold text-xl uppercase tracking-wider text-white">Areas We Serve</h3>
+            </div>
+            <p className="text-muted-foreground text-sm max-w-3xl mx-auto">
+              Members join us from Kaithal and nearby areas including Kurukshetra, Karnal, Hisar, and Cheeka. We're conveniently located in Rishi Nagar — just a short drive for anyone in the district.
+            </p>
           </div>
         </div>
 

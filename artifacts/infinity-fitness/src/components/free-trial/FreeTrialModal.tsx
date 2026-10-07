@@ -116,7 +116,7 @@ export function FreeTrialModal({ open, onClose }: { open: boolean; onClose: () =
                   </p>
                   <button
                     onClick={handleClose}
-                    className="mt-8 bg-primary text-white px-8 py-3 font-display font-bold uppercase tracking-wider rounded-sm hover:bg-primary/90 transition-colors"
+                    className="mt-8 bg-primary text-black px-8 py-3 font-display font-bold uppercase tracking-wider rounded-sm hover:bg-primary/90 transition-colors"
                   >
                     Done
                   </button>

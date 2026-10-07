@@ -91,7 +91,7 @@ export const Reviews = () => {
                           {review.name.charAt(0)}
                         </div>
                         <div>
-                          <h4 className="text-foreground font-display uppercase tracking-wide font-bold">{review.name}</h4>
+                          <p className="text-foreground font-display uppercase tracking-wide font-bold">{review.name}</p>
                           <span className="text-xs text-muted-foreground">
                             {review.tag === 'Google Review' ? `Google Review · ${review.date}` : review.date}
                           </span>
