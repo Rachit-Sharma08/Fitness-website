@@ -1,3 +1,5 @@
+// @ts-nocheck -- ye file Vercel function ke apne build me banti hai (root
+// tsconfig ka lib/node types yahan apply nahi hote), isliye typecheck skip.
 // Proxy: browser -> Vercel (same-origin) -> Render backend.
 // Origin header forward NAHI hota, isliye backend CORS check me koi dikkat nahi.
 // chat = JSON, tts = binary audio (arrayBuffer se safe), inquiry/healthz = JSON.
