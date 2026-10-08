@@ -1,0 +1,16 @@
+name: Render keep-alive
+
+on:
+  schedule:
+    - cron: "*/12 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wake render free instance
+        run: |
+          curl -fsS --max-time 60 \
+            "https://infinity-fitness-api-rachit.onrender.com/api/healthz" \
+            -o /dev/null || echo "healthz failed (free tier may be asleep, next tick retries)"
