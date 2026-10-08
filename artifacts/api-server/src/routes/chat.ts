@@ -104,7 +104,7 @@ router.post("/chat", async (req, res) => {
         "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "groq/compound-mini",
+        model: "openai/gpt-oss-120b",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           ...messages.slice(-20),

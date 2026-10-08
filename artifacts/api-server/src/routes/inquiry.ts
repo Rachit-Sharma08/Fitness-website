@@ -3,7 +3,7 @@ import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 
-const GYM_EMAIL = "digitalguru99908@gmail.com";
+const GYM_EMAIL = "rachitsharma9990888@gmail.com";
 const GYM_PHONE_DISPLAY = "81688 28832";
 const GYM_PHONE_TEL = "+918168828832";
 const GYM_WHATSAPP = "https://wa.me/918168828832";

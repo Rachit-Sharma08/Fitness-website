@@ -1,6 +1,6 @@
 // @ts-nocheck -- Vercel function build (root tsconfig ke types yahan apply nahi hote)
 // Proxy: browser -> Vercel (same-origin) -> Render backend (CORS fix). Contact/free-trial form.
-const BACKEND = "https://infinity-fitness-api.onrender.com/api/inquiry";
+const BACKEND = "https://infinity-fitness-api-rachit.onrender.com/api/inquiry";
 
 export const config = { maxDuration: 60 };
 

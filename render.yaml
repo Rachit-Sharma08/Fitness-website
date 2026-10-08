@@ -3,7 +3,7 @@ services:
     name: infinity-fitness-api
     runtime: node
     plan: free
-    repo: https://github.com/digitalguru99908-dev/Fitness-website.git
+    repo: https://github.com/Rachit-Goutam/Fitness-website.git
     branch: main
     buildCommand: pnpm install && pnpm --filter @workspace/api-server build
     startCommand: pnpm --filter @workspace/api-server start

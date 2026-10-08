@@ -1,6 +1,6 @@
 // @ts-nocheck -- Vercel function build (root tsconfig ke types yahan apply nahi hote)
 // Proxy: browser -> Vercel (same-origin) -> Render backend (CORS fix). Health check (GET).
-const BACKEND = "https://infinity-fitness-api.onrender.com/api/healthz";
+const BACKEND = "https://infinity-fitness-api-rachit.onrender.com/api/healthz";
 
 export const config = { maxDuration: 60 };
 
